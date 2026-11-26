@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.provider.Settings
+import com.minimal.carlauncher.R
 import com.minimal.carlauncher.core.BinaryXml
 import com.minimal.carlauncher.core.DexStrings
 import com.minimal.carlauncher.core.XmlElement
@@ -37,29 +38,29 @@ object ApkInspector {
 
     suspend fun inspect(context: Context, pkg: String): String = withContext(Dispatchers.IO) {
         buildString {
-            appendLine("Package: $pkg")
-            val info = section(this, "package") { packageFacts(context, pkg) }
+            appendLine(context.getString(R.string.inspect_package, pkg))
+            val info = section(context, this, "package") { packageFacts(context, pkg) }
             appendLine()
             val apk = info?.sourceDir
             if (apk == null) {
-                appendLine("APK path unknown - cannot read manifest or code.")
+                appendLine(context.getString(R.string.inspect_apk_unknown))
             } else {
-                appendLine("== Components (manifest) ==")
-                section(this, "manifest") { appendComponents(this, apk) }
+                appendLine(context.getString(R.string.inspect_components))
+                section(context, this, "manifest") { appendComponents(context, this, apk) }
                 appendLine()
-                appendLine("== Code strings ==")
-                section(this, "code") { appendCodeStrings(this, apk, pkg) }
+                appendLine(context.getString(R.string.inspect_code))
+                section(context, this, "code") { appendCodeStrings(context, this, apk, pkg) }
             }
             appendLine()
-            appendLine("== Settings (change station, then Refresh) ==")
-            section(this, "settings") { appendSettings(this, context) }
+            appendLine(context.getString(R.string.inspect_settings))
+            section(context, this, "settings") { appendSettings(this, context) }
         }
     }
 
-    private inline fun <T> section(sb: StringBuilder, name: String, block: () -> T): T? = try {
+    private inline fun <T> section(context: Context, sb: StringBuilder, name: String, block: () -> T): T? = try {
         block()
     } catch (e: Throwable) {
-        sb.appendLine("[$name failed: ${e.javaClass.simpleName}: ${e.message?.take(MAX_LEN)}]")
+        sb.appendLine(context.getString(R.string.inspect_failed, name, e.javaClass.simpleName, e.message?.take(MAX_LEN) ?: "-"))
         null
     }
 
@@ -73,30 +74,30 @@ object ApkInspector {
         val code = if (Build.VERSION.SDK_INT >= 28) pi.longVersionCode else {
             @Suppress("DEPRECATION") pi.versionCode.toLong()
         }
-        appendLine("Version: ${pi.versionName} ($code)")
-        appendLine("System app: ${ai.flags and ApplicationInfo.FLAG_SYSTEM != 0}")
-        appendLine("Shared UID: ${pi.sharedUserId ?: "-"}")
-        appendLine("APK: ${ai.sourceDir}")
-        ai.splitSourceDirs?.forEach { appendLine("Split: $it") }
+        appendLine(context.getString(R.string.inspect_version, pi.versionName ?: "-", code))
+        appendLine(context.getString(R.string.inspect_system_app, context.getString(if (ai.flags and ApplicationInfo.FLAG_SYSTEM != 0) R.string.diag_yes else R.string.diag_no)))
+        appendLine(context.getString(R.string.inspect_uid, pi.sharedUserId ?: "-"))
+        appendLine(context.getString(R.string.inspect_apk, ai.sourceDir))
+        ai.splitSourceDirs?.forEach { appendLine(context.getString(R.string.inspect_split, it)) }
         pi.requestedPermissions
             ?.filter { p -> KEYWORDS.any { p.lowercase(Locale.ROOT).contains(it) } || "nwd" in p }
-            ?.forEach { appendLine("Uses permission: $it") }
+            ?.forEach { appendLine(context.getString(R.string.inspect_permission, it)) }
         return ai
     }
 
     // ----------------------------------------------------------------- manifest
 
-    private fun appendComponents(sb: StringBuilder, apk: String) {
+    private fun appendComponents(context: Context, sb: StringBuilder, apk: String) {
         val xml = ZipFile(apk).use { zip ->
             val entry = zip.getEntry("AndroidManifest.xml") ?: run {
-                sb.appendLine("No AndroidManifest.xml in APK")
+                sb.appendLine(context.getString(R.string.inspect_no_manifest))
                 return
             }
             zip.getInputStream(entry).use { it.readBytes() }
         }
         val elements = BinaryXml.parse(xml)
         if (elements.isEmpty()) {
-            sb.appendLine("Manifest could not be parsed")
+            sb.appendLine(context.getString(R.string.inspect_bad_manifest))
             return
         }
 
@@ -117,7 +118,7 @@ object ApkInspector {
                 // Only what another app could talk to: exported, or with intent filters.
                 if (exported == "true" || actions.isNotEmpty() || e.tag == "provider") {
                     sb.appendLine(describe(e, exported))
-                    actions.forEach { sb.appendLine("    action ${it.take(MAX_LEN)}") }
+                    actions.forEach { sb.appendLine("    " + context.getString(R.string.inspect_action, it.take(MAX_LEN))) }
                     shown++
                 }
                 i = j
@@ -125,11 +126,11 @@ object ApkInspector {
                 i++
             }
         }
-        if (shown == 0) sb.appendLine("No exported components or intent filters")
+        if (shown == 0) sb.appendLine(context.getString(R.string.inspect_no_components))
 
         // Permissions the radio defines itself are often what guards its broadcasts.
         elements.filter { it.tag == "permission" }.forEach {
-            sb.appendLine("defines permission ${it.attrs["name"]}")
+            sb.appendLine(context.getString(R.string.inspect_defines_permission, it.attrs["name"] ?: "-"))
         }
     }
 
@@ -144,7 +145,7 @@ object ApkInspector {
 
     // --------------------------------------------------------------------- code
 
-    private fun appendCodeStrings(sb: StringBuilder, apk: String, pkg: String) {
+    private fun appendCodeStrings(context: Context, sb: StringBuilder, apk: String, pkg: String) {
         val all = LinkedHashSet<String>()
         var source = "APK dex"
         ZipFile(apk).use { zip ->
@@ -159,7 +160,7 @@ object ApkInspector {
                 .filter { it.isFile && (it.name.endsWith(".vdex") || it.name.endsWith(".odex")) }
                 .toList()
             if (files.isEmpty()) {
-                sb.appendLine("No dex in APK and no oat files readable next to it")
+                sb.appendLine(context.getString(R.string.inspect_no_dex))
                 return
             }
             source = files.joinToString { it.name }
@@ -182,7 +183,7 @@ object ApkInspector {
             .take(MAX_STRINGS)
             .toList()
 
-        sb.appendLine("Source: $source  (${all.size} strings, showing ${picked.size})")
+        sb.appendLine(context.getString(R.string.inspect_source, source, all.size, picked.size))
         picked.forEach { sb.appendLine("  ${it.take(MAX_LEN)}") }
     }
 
@@ -207,9 +208,9 @@ object ApkInspector {
                         }
                     }
             } catch (e: Exception) {
-                sb.appendLine("$label: not readable (${e.javaClass.simpleName})")
+                sb.appendLine(context.getString(R.string.inspect_not_readable, label, e.javaClass.simpleName))
             }
         }
-        if (found == 0) sb.appendLine("No radio-related settings keys")
+        if (found == 0) sb.appendLine(context.getString(R.string.inspect_no_keys))
     }
 }

@@ -200,13 +200,13 @@ class MapNavigator(
     private fun render(p: Progress) {
         val unit = Prefs.speedUnit
         binding.cardGlyph.text = Maneuvers.glyph(p.nextStep)
-        binding.cardTitle.text = Format.distanceText(unit, p.metresToNextStep)
+        binding.cardTitle.text = Format.distanceText(unit, p.metresToNextStep, activity.resources.configuration.locales[0])
         binding.cardSubtitle.text = Maneuvers.instruction(p.nextStep, activity.resources.configuration.locales[0].language)
         val eta = DateFormat.getTimeFormat(activity)
             .format(Date(System.currentTimeMillis() + (p.remainingS * 1000).toLong()))
         binding.cardSummary.text = activity.getString(
             R.string.nav_summary,
-            Format.distanceText(unit, p.remainingM),
+            Format.distanceText(unit, p.remainingM, activity.resources.configuration.locales[0]),
             Format.durationText(p.remainingS),
             eta
         )

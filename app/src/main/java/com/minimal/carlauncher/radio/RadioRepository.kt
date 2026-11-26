@@ -19,6 +19,7 @@ import android.provider.MediaStore
 import android.service.notification.StatusBarNotification
 import android.view.KeyEvent
 import androidx.core.app.NotificationManagerCompat
+import com.minimal.carlauncher.R
 import com.minimal.carlauncher.core.Constants
 import com.minimal.carlauncher.core.Prefs
 import com.minimal.carlauncher.core.RadioActions
@@ -337,34 +338,34 @@ class RadioRepository(context: Context) {
      */
     fun diagnostics(): String = buildString {
         val s = _state.value
-        appendLine("Notification access: ${if (hasSessionAccess) "GRANTED" else "NOT granted"}")
-        appendLine("Listener bound: ${MediaSessionListener.instance != null}")
-        appendLine("Chosen radio app: ${Prefs.radioPackage ?: "(auto-detect)"}")
-        appendLine("Using session: ${controller?.packageName ?: "-"}")
-        appendLine("Using notification: ${notification?.packageName ?: "-"}")
-        appendLine("Widget shows: ${s.frequency?.searchQuery ?: "-"} | ${s.stationName ?: "-"} | ${s.radioText ?: "-"}")
+        appendLine(appContext.getString(R.string.diag_access, appContext.getString(if (hasSessionAccess) R.string.diag_granted else R.string.diag_not_granted)))
+        appendLine(appContext.getString(R.string.diag_listener, appContext.getString(if (MediaSessionListener.instance != null) R.string.diag_yes else R.string.diag_no)))
+        appendLine(appContext.getString(R.string.diag_chosen, Prefs.radioPackage ?: appContext.getString(R.string.diag_auto)))
+        appendLine(appContext.getString(R.string.diag_session, controller?.packageName ?: "-"))
+        appendLine(appContext.getString(R.string.diag_notification, notification?.packageName ?: "-"))
+        appendLine(appContext.getString(R.string.diag_widget, s.frequency?.searchQuery ?: "-", s.stationName ?: "-", s.radioText ?: "-"))
         appendLine()
 
         val sessions = activeSessions()
-        appendLine("== Media sessions (${sessions.size}) ==")
+        appendLine(appContext.getString(R.string.diag_sessions, sessions.size))
         sessions.forEach { m ->
-            appendLine("• ${m.packageName}  state=${m.playbackState?.state ?: "none"}")
+            appendLine("• ${m.packageName}  " + appContext.getString(R.string.diag_state, m.playbackState?.state?.toString() ?: appContext.getString(R.string.diag_none)))
             fieldsOf(m.metadata).filterNotNull().filter { it.isNotBlank() }
                 .forEach { appendLine("    \"$it\"") }
         }
         appendLine()
 
         val all = MediaSessionListener.instance?.snapshot().orEmpty()
-        appendLine("== Notifications (${all.size}) ==")
+        appendLine(appContext.getString(R.string.diag_notifications, all.size))
         all.take(20).forEach { sbn ->
-            appendLine("• ${sbn.packageName}${if (sbn.isOngoing) "  [ongoing]" else ""}")
+            appendLine("• ${sbn.packageName}${if (sbn.isOngoing) "  " + appContext.getString(R.string.diag_ongoing) else ""}")
             // Text only for ongoing notifications (where a tuner lives), so a screenshot of
             // this report never shows personal messages.
             if (!sbn.isOngoing) return@forEach
             NotificationText.all(appContext, sbn.notification).take(6)
                 .forEach { appendLine("    \"${it.take(80)}\"") }
             sbn.notification.actions?.let { acts ->
-                appendLine("    actions: " + acts.joinToString { "'${it.title}'" })
+                appendLine("    " + appContext.getString(R.string.diag_actions, acts.joinToString { "'${it.title}'" }))
             }
         }
     }

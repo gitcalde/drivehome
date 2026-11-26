@@ -186,4 +186,42 @@
     <string name="update_invalid_apk">Downloaded file is not a valid APK</string>
     <string name="update_finalize_failed">Could not finalise the download</string>
     <string name="update_download_failed">Download failed</string>
+    <string name="diag_granted">GRANTED</string>
+    <string name="diag_not_granted">NOT granted</string>
+    <string name="diag_yes">Yes</string>
+    <string name="diag_no">No</string>
+    <string name="diag_auto">(auto-detect)</string>
+    <string name="diag_access">Notification access: %1$s</string>
+    <string name="diag_listener">Listener bound: %1$s</string>
+    <string name="diag_chosen">Chosen radio app: %1$s</string>
+    <string name="diag_session">Using session: %1$s</string>
+    <string name="diag_notification">Using notification: %1$s</string>
+    <string name="diag_widget">Widget shows: %1$s | %2$s | %3$s</string>
+    <string name="diag_sessions">== Media sessions (%1$d) ==</string>
+    <string name="diag_state">state=%1$s</string>
+    <string name="diag_none">none</string>
+    <string name="diag_notifications">== Notifications (%1$d) ==</string>
+    <string name="diag_ongoing">[ongoing]</string>
+    <string name="diag_actions">actions: %1$s</string>
+    <string name="inspect_package">Package: %1$s</string>
+    <string name="inspect_apk_unknown">APK path unknown - cannot read manifest or code.</string>
+    <string name="inspect_components">== Components (manifest) ==</string>
+    <string name="inspect_code">== Code strings ==</string>
+    <string name="inspect_settings">== Settings (change station, then Refresh) ==</string>
+    <string name="inspect_failed">[%1$s failed: %2$s: %3$s]</string>
+    <string name="inspect_version">Version: %1$s (%2$d)</string>
+    <string name="inspect_system_app">System app: %1$s</string>
+    <string name="inspect_uid">Shared UID: %1$s</string>
+    <string name="inspect_apk">APK: %1$s</string>
+    <string name="inspect_split">Split: %1$s</string>
+    <string name="inspect_permission">Uses permission: %1$s</string>
+    <string name="inspect_no_manifest">No AndroidManifest.xml in APK</string>
+    <string name="inspect_bad_manifest">Manifest could not be parsed</string>
+    <string name="inspect_action">action %1$s</string>
+    <string name="inspect_no_components">No exported components or intent filters</string>
+    <string name="inspect_defines_permission">defines permission %1$s</string>
+    <string name="inspect_no_dex">No dex in APK and no oat files readable next to it</string>
+    <string name="inspect_source">Source: %1$s (%2$d strings, showing %3$d)</string>
+    <string name="inspect_not_readable">%1$s: not readable (%2$s)</string>
+    <string name="inspect_no_keys">No radio-related settings keys</string>
 </resources>

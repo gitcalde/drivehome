@@ -141,7 +141,8 @@ class MapSearchPanel(
             holder.subtitle.visibility = if (place.subtitle.isBlank()) View.GONE else View.VISIBLE
             val from = near
             holder.distance.text = if (from == null) "" else Format.distanceText(
-                Prefs.speedUnit, Geo.distanceM(from, LatLon(place.latitude, place.longitude))
+                Prefs.speedUnit, Geo.distanceM(from, LatLon(place.latitude, place.longitude)),
+                holder.itemView.resources.configuration.locales[0]
             )
             holder.itemView.setOnClickListener { onClick(place) }
         }
