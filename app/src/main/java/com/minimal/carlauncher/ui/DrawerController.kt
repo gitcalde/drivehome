@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.minimal.carlauncher.R
 import com.minimal.carlauncher.data.AppEntry
 import com.minimal.carlauncher.data.AppRepository
-import com.minimal.carlauncher.databinding.ActivityHomeBinding
+import com.minimal.carlauncher.databinding.PanelAppDrawerBinding
 import com.minimal.carlauncher.util.IntentUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlin.math.abs
@@ -24,7 +24,7 @@ import kotlin.math.abs
  */
 class DrawerController(
     private val activity: Activity,
-    private val binding: ActivityHomeBinding,
+    private val binding: PanelAppDrawerBinding,
     private val repository: AppRepository,
     scope: CoroutineScope,
     private val onPinRequested: (AppEntry) -> Unit
@@ -39,7 +39,7 @@ class DrawerController(
 
     private var allApps: List<AppEntry> = emptyList()
 
-    val isOpen: Boolean get() = binding.drawerContainer.visibility == View.VISIBLE
+    val isOpen: Boolean get() = binding.root.visibility == View.VISIBLE
 
     fun bind() {
         val spanCount = activity.resources.getInteger(R.integer.drawer_span_count)
@@ -53,7 +53,7 @@ class DrawerController(
 
         binding.btnCloseDrawer.setOnClickListener { close() }
         // The drawer covers the whole screen; a tap on its margins dismisses it.
-        binding.drawerContainer.setOnClickListener { close() }
+        binding.root.setOnClickListener { close() }
         bindSwipeDownToClose()
 
         binding.searchInput.addTextChangedListener(object : TextWatcher {
@@ -69,12 +69,12 @@ class DrawerController(
     }
 
     fun open() {
-        binding.drawerContainer.visibility = View.VISIBLE
+        binding.root.visibility = View.VISIBLE
         binding.appGrid.scrollToPosition(0)
     }
 
     fun close() {
-        binding.drawerContainer.visibility = View.GONE
+        binding.root.visibility = View.GONE
         clearSearch()
         hideKeyboard()
     }
