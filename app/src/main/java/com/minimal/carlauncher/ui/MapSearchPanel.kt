@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.minimal.carlauncher.R
 import com.minimal.carlauncher.core.Format
 import com.minimal.carlauncher.core.Prefs
-import com.minimal.carlauncher.databinding.ActivityHomeBinding
+import com.minimal.carlauncher.databinding.PanelMapSearchBinding
 import com.minimal.carlauncher.map.GeocodingClient
 import com.minimal.carlauncher.map.Place
 import com.minimal.carlauncher.nav.Geo
@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
  */
 class MapSearchPanel(
     private val activity: AppCompatActivity,
-    private val binding: ActivityHomeBinding,
+    private val binding: PanelMapSearchBinding,
     private val onPicked: (Place) -> Unit
 ) {
 
@@ -39,7 +39,7 @@ class MapSearchPanel(
     private var near: LatLon? = null
     private var searchJob: Job? = null
 
-    val isOpen: Boolean get() = binding.searchPanel.visibility == View.VISIBLE
+    val isOpen: Boolean get() = binding.root.visibility == View.VISIBLE
 
     fun bind() {
         binding.mapSearchResults.layoutManager = LinearLayoutManager(activity)
@@ -58,7 +58,7 @@ class MapSearchPanel(
 
     fun open(nearCar: LatLon?) {
         near = nearCar
-        binding.searchPanel.visibility = View.VISIBLE
+        binding.root.visibility = View.VISIBLE
         binding.mapSearchInput.requestFocus()
         imm()?.showSoftInput(binding.mapSearchInput, InputMethodManager.SHOW_IMPLICIT)
     }
@@ -66,7 +66,7 @@ class MapSearchPanel(
     fun close() {
         searchJob?.cancel()
         hideKeyboard()
-        binding.searchPanel.visibility = View.GONE
+        binding.root.visibility = View.GONE
     }
 
     private fun search() {
