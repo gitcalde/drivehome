@@ -100,8 +100,14 @@ jobs:
           "$apksigner" verify --verbose --print-certs dist/*.apk
           keytool -exportcert -keystore "$DRIVEHOME_KEYSTORE_FILE" -alias "$KEY_ALIAS" -storepass:env KEYSTORE_PASSWORD > "$RUNNER_TEMP/drivehome-cert.der"
           expected="$(sha256sum "$RUNNER_TEMP/drivehome-cert.der" | cut -d' ' -f1)"
-          actual="$("$apksigner" verify --print-certs dist/*.apk | sed -n 's/^Signer #1 certificate SHA-256 digest: //p')"
-          test "$actual" = "$expected"
+          # Build-tools versions label signers differently (Signer #1 / V2 Signer).
+          # Accept only one distinct certificate SHA-256 digest, matching the keystore.
+          actual="$("$apksigner" verify --print-certs dist/*.apk | sed -nE 's/^.*Signer[^:]*:?[[:space:]]+certificate SHA-256 digest:[[:space:]]*([[:xdigit:]]{64})[[:space:]]*$/\1/p' | tr '[:upper:]' '[:lower:]' | sort -u)"
+          if [[ "$actual" != "$expected" ]]; then
+            echo "::error::APK certificate digest missing, ambiguous or different from the signing keystore"
+            exit 1
+          fi
+          echo "APK signing certificate matches keystore (SHA-256)"
           rm -f "$RUNNER_TEMP/drivehome-cert.der"
       - name: Upload signed APK
         uses: actions/upload-artifact@v4
