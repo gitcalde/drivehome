@@ -23,6 +23,7 @@ object Prefs {
     const val KEY_MUSIC_PACKAGE = "pref_music_package"
     const val KEY_PROJECTION_PACKAGE = "pref_projection_package"
     const val KEY_DOCK_SLOTS = "pref_dock_slots"
+    const val KEY_DASHBOARD_CONFIG = "pref_dashboard_config"
     const val KEY_DASHCAM_PACKAGE = "pref_dashcam_package"
     const val KEY_DASHCAM_AUTOSTART = "pref_dashcam_autostart"
     const val KEY_DASHCAM_RETURN_HOME = "pref_dashcam_return_home"
@@ -100,6 +101,14 @@ object Prefs {
     var dashcamReturnHome: Boolean
         get() = sp.getBoolean(KEY_DASHCAM_RETURN_HOME, true)
         set(value) = sp.edit().putBoolean(KEY_DASHCAM_RETURN_HOME, value).apply()
+
+    var dashboardConfig: DashboardConfig
+        get() = DashboardCodec.decode(try {
+            sp.getString(KEY_DASHBOARD_CONFIG, null)
+        } catch (_: ClassCastException) {
+            null
+        })
+        set(value) = sp.edit().putString(KEY_DASHBOARD_CONFIG, DashboardCodec.encode(value)).apply()
 
     var dockSlots: List<String>
         get() = DockCodec.decode(sp.getString(KEY_DOCK_SLOTS, null))
