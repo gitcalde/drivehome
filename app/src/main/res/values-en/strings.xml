@@ -228,7 +228,24 @@
     <string name="dashboard_gps_disabled">Location off</string>
     <string name="dashboard_gps_waiting">Acquiring GPS</string>
     <string name="dashboard_gps_ready">GPS connected</string>
-    <string name="dashboard_home_action">DriveHome. Tap to return home; hold to open settings</string>
+    <string name="dashboard_home_action">DriveHome. Tap to return home; hold to customize</string>
     <string name="settings_immersive">Immersive mode (full screen)</string>
     <string name="settings_immersive_hint">Hides Android system bars. Swipe from the edge to reveal them temporarily.</string>
+    <string name="editor_title">Customize dashboard</string>
+    <string name="editor_clock">Clock</string>
+    <string name="editor_radio">Radio</string>
+    <string name="editor_map">Map</string>
+    <string name="editor_projection">Phone projection</string>
+    <string name="editor_navigation">Navigation</string>
+    <string name="editor_music">Music</string>
+    <string name="editor_visible">Show widget</string>
+    <string name="editor_column">Column</string>
+    <string name="editor_row">Row</string>
+    <string name="editor_width">Width</string>
+    <string name="editor_height">Height</string>
+    <string name="editor_apply">Apply to draft</string>
+    <string name="editor_reset">Restore default layout</string>
+    <string name="editor_save">Save</string>
+    <string name="editor_valid">Valid layout</string>
+    <string name="editor_invalid">Overlap, insufficient size or outside the grid</string>
 </resources>

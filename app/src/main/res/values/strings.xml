@@ -228,7 +228,24 @@
     <string name="dashboard_gps_disabled">Ubicación desactivada</string>
     <string name="dashboard_gps_waiting">Buscando GPS</string>
     <string name="dashboard_gps_ready">GPS conectado</string>
-    <string name="dashboard_home_action">DriveHome. Pulsa para volver al inicio; mantén pulsado para abrir los ajustes</string>
+    <string name="dashboard_home_action">DriveHome. Pulsa para volver al inicio; mantén pulsado para personalizar</string>
     <string name="settings_immersive">Modo inmersivo (pantalla completa)</string>
     <string name="settings_immersive_hint">Oculta las barras de Android. Desliza desde el borde para mostrarlas temporalmente.</string>
+    <string name="editor_title">Personalizar dashboard</string>
+    <string name="editor_clock">Reloj</string>
+    <string name="editor_radio">Radio</string>
+    <string name="editor_map">Mapa</string>
+    <string name="editor_projection">Conexión móvil</string>
+    <string name="editor_navigation">Navegación</string>
+    <string name="editor_music">Música</string>
+    <string name="editor_visible">Mostrar widget</string>
+    <string name="editor_column">Columna</string>
+    <string name="editor_row">Fila</string>
+    <string name="editor_width">Ancho</string>
+    <string name="editor_height">Alto</string>
+    <string name="editor_apply">Aplicar al borrador</string>
+    <string name="editor_reset">Restaurar distribución original</string>
+    <string name="editor_save">Guardar</string>
+    <string name="editor_valid">Distribución válida</string>
+    <string name="editor_invalid">Solapamiento, tamaño insuficiente o fuera de la cuadrícula</string>
 </resources>
