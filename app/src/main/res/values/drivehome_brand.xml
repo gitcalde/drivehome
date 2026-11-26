@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Approved identity palette; cockpit themes remain unchanged in this task. -->
+    <color name="drivehome_brand_blue">#FF0A84FF</color>
+    <color name="drivehome_brand_blue_deep">#FF0B3B7A</color>
+    <color name="drivehome_brand_graphite">#FF1B1F24</color>
+    <color name="drivehome_brand_surface">#FF2C3238</color>
+    <color name="drivehome_brand_text">#FFE2E6EA</color>
+    <color name="drivehome_brand_muted">#FF9AA3AD</color>
+    <color name="drivehome_brand_white">#FFFFFFFF</color>
+</resources>
