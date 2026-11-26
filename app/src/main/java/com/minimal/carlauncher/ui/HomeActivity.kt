@@ -119,17 +119,15 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.dashboardGpsStatus.setOnClickListener {
-            val state = viewModel.vehicle.value
-            when {
-                !state.permissionGranted -> requestLocation()
-                !state.gpsEnabled -> IntentUtil.openLocationSettings(this)
-            }
-        }
         binding.gaugeClock.root.setOnClickListener { openClock() }
     }
 
     private fun bindDockActions() {
+        binding.btnDriveHome.setOnClickListener { resetToDashboard() }
+        binding.btnDriveHome.setOnLongClickListener {
+            if (!isMoving()) openSettings()
+            true
+        }
         binding.dockStrip.btnAllApps.setOnClickListener { drawer.open() }
         binding.systemDock.btnTheme.setOnClickListener { toggleTheme() }
         // Tap goes to the car / factory settings, long-press to this launcher's own settings -
@@ -252,8 +250,6 @@ class HomeActivity : AppCompatActivity() {
         })
         binding.mapPortal.textSpeedStatus.setText(gpsLabel)
         binding.mapPortal.textSpeedStatus.setTextColor(gpsColor)
-        binding.dashboardGpsStatus.setText(gpsLabel)
-        binding.dashboardGpsStatus.setTextColor(gpsColor)
 
         map.render(state)
 
