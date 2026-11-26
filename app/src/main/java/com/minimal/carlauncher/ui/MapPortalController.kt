@@ -14,6 +14,7 @@ import com.minimal.carlauncher.R
 import com.minimal.carlauncher.core.Constants
 import com.minimal.carlauncher.core.Format
 import com.minimal.carlauncher.core.Prefs
+import com.minimal.carlauncher.core.NightMapPalette
 import com.minimal.carlauncher.databinding.WidgetMapBinding
 import com.minimal.carlauncher.databinding.PanelMapSearchBinding
 import com.minimal.carlauncher.location.VehicleState
@@ -233,8 +234,7 @@ class MapPortalController(
         val night = (activity.resources.configuration.uiMode and
             Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
         val tiles = mapView.overlayManager.tilesOverlay
-        // OSM's standard style has no night variant; inverting it gives a dark map with light
-        // roads, which keeps the cockpit dark instead of a bright disc in the middle of it.
+        // Darken the standard OSM tiles using a cool luminance-based palette.
         tiles.setColorFilter(if (night) NIGHT_TILES else null)
         val bg = ContextCompat.getColor(activity, R.color.cockpit_surface_alt)
         tiles.setLoadingBackgroundColor(bg)
@@ -385,17 +385,8 @@ class MapPortalController(
         const val NAV_ZOOM = 16.5
         const val NAV_MIN_ZOOM = 15.0
 
-        /** Colour inversion: light roads on a dark background, slightly dimmed for night. */
-        val NIGHT_TILES = ColorMatrixColorFilter(
-            ColorMatrix(
-                floatArrayOf(
-                    -0.9f, 0f, 0f, 0f, 235f,
-                    0f, -0.9f, 0f, 0f, 235f,
-                    0f, 0f, -0.9f, 0f, 235f,
-                    0f, 0f, 0f, 1f, 0f
-                )
-            )
-        )
+        /** Cool night palette; the original tile cache remains unchanged. */
+        val NIGHT_TILES = ColorMatrixColorFilter(ColorMatrix(NightMapPalette.matrix()))
 
         fun angleDelta(a: Float, b: Float): Float {
             val d = abs(Format.normalizeDegrees(a) - Format.normalizeDegrees(b))

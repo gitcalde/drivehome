@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.minimal.carlauncher.ui.view.RoundedMapLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mapPortal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_map_surface"
-    android:outlineProvider="background"
-    android:clipToOutline="true">
+    android:background="@drawable/bg_map_surface">
 
     <com.minimal.carlauncher.ui.view.CompassBezelView
         android:id="@+id/compassBezel"
@@ -272,4 +270,4 @@
                 app:iconTint="?attr/colorOnPrimary" />
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+</com.minimal.carlauncher.ui.view.RoundedMapLayout>
