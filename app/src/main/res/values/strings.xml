@@ -224,4 +224,8 @@
     <string name="inspect_source">Origen: %1$s (%2$d cadenas, se muestran %3$d)</string>
     <string name="inspect_not_readable">%1$s: no legible (%2$s)</string>
     <string name="inspect_no_keys">No hay claves de configuración relacionadas con la radio</string>
+    <string name="dashboard_gps_permission">Activar GPS</string>
+    <string name="dashboard_gps_disabled">Ubicación desactivada</string>
+    <string name="dashboard_gps_waiting">Buscando GPS</string>
+    <string name="dashboard_gps_ready">GPS conectado</string>
 </resources>

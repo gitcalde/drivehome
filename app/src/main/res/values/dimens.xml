@@ -72,4 +72,5 @@
     <dimen name="nav_title_text">26sp</dimen>
     <dimen name="nav_subtitle_text">15sp</dimen>
     <dimen name="nav_button_height">48dp</dimen>
+    <dimen name="dashboard_speed_text">48sp</dimen>
 </resources>

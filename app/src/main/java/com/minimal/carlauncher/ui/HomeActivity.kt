@@ -119,6 +119,13 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.dashboardGpsStatus.setOnClickListener {
+            val state = viewModel.vehicle.value
+            when {
+                !state.permissionGranted -> requestLocation()
+                !state.gpsEnabled -> IntentUtil.openLocationSettings(this)
+            }
+        }
         binding.gaugeClock.root.setOnClickListener { openClock() }
     }
 
@@ -232,24 +239,21 @@ class HomeActivity : AppCompatActivity() {
 
         binding.mapPortal.textSpeed.text = Format.speedText(unit, state.speedMps, state.hasFix)
         binding.mapPortal.textSpeedUnit.text = Format.unitLabel(unit)
-        binding.mapPortal.textSpeedStatus.setText(
-            when {
-                !state.permissionGranted -> R.string.gps_permission_needed
-                !state.gpsEnabled -> R.string.gps_disabled
-                !state.hasFix -> R.string.gps_acquiring
-                else -> R.string.gps_lock
-            }
-        )
-        binding.mapPortal.textSpeedStatus.setTextColor(
-            ContextCompat.getColor(
-                this,
-                when {
-                    !state.permissionGranted || !state.gpsEnabled -> R.color.cockpit_badge
-                    !state.hasFix -> R.color.cockpit_warn
-                    else -> R.color.cockpit_ok
-                }
-            )
-        )
+        val gpsLabel = when {
+            !state.permissionGranted -> R.string.dashboard_gps_permission
+            !state.gpsEnabled -> R.string.dashboard_gps_disabled
+            !state.hasFix -> R.string.dashboard_gps_waiting
+            else -> R.string.dashboard_gps_ready
+        }
+        val gpsColor = ContextCompat.getColor(this, when {
+            !state.permissionGranted || !state.gpsEnabled -> R.color.cockpit_badge
+            !state.hasFix -> R.color.cockpit_warn
+            else -> R.color.cockpit_ok
+        })
+        binding.mapPortal.textSpeedStatus.setText(gpsLabel)
+        binding.mapPortal.textSpeedStatus.setTextColor(gpsColor)
+        binding.dashboardGpsStatus.setText(gpsLabel)
+        binding.dashboardGpsStatus.setTextColor(gpsColor)
 
         map.render(state)
 
