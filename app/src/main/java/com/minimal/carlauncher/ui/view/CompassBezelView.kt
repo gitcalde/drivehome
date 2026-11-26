@@ -98,7 +98,8 @@ class CompassBezelView @JvmOverloads constructor(
             val a = Math.toRadians((i * 90f + northDeg).toDouble())
             val x = cx + mid * sin(a).toFloat()
             val y = cy - mid * cos(a).toFloat() + baselineShift
-            canvas.drawText(letter, x, y, if (i == 0) northPaint else letterPaint)
+            val displayLetter = if (letter == "W" && resources.configuration.locales[0].language != "en") "O" else letter
+            canvas.drawText(displayLetter, x, y, if (i == 0) northPaint else letterPaint)
         }
     }
 

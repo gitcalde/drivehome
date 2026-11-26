@@ -3,6 +3,7 @@ package com.minimal.carlauncher.update
 import android.content.Context
 import android.net.ConnectivityManager
 import com.minimal.carlauncher.BuildConfig
+import com.minimal.carlauncher.R
 import com.minimal.carlauncher.core.Constants
 import com.minimal.carlauncher.core.Prefs
 import com.minimal.carlauncher.core.SemVer
@@ -36,8 +37,8 @@ class UpdateRepository(
 ) {
 
     private val appContext = context.applicationContext
-    private val client = GitHubReleaseClient()
-    private val downloader = ApkDownloader()
+    private val client = GitHubReleaseClient(appContext)
+    private val downloader = ApkDownloader(appContext)
 
     private val _state = MutableStateFlow<UpdateState>(
         if (Constants.isUpdaterConfigured) UpdateState.Idle else UpdateState.NotConfigured
@@ -86,7 +87,7 @@ class UpdateRepository(
             when (val result = client.fetchLatest()) {
                 is GitHubReleaseClient.Result.Success -> onRelease(result.release)
                 is GitHubReleaseClient.Result.SoftFailure ->
-                    _state.value = if (force) UpdateState.Error("Could not reach GitHub")
+                    _state.value = if (force) UpdateState.Error(appContext.getString(R.string.update_offline))
                     else restoreCachedState()
                 is GitHubReleaseClient.Result.Failure ->
                     _state.value = UpdateState.Error(result.message)
@@ -120,7 +121,7 @@ class UpdateRepository(
 
     fun download(release: ReleaseInfo) {
         if (!release.hasApk) {
-            _state.value = UpdateState.Error("This release has no APK attached")
+            _state.value = UpdateState.Error(appContext.getString(R.string.update_no_apk))
             return
         }
         if (downloadJob?.isActive == true) return
