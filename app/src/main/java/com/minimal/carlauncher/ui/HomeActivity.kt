@@ -146,7 +146,12 @@ class HomeActivity : AppCompatActivity() {
     private fun bindDockActions() {
         binding.btnDriveHome.setOnClickListener { resetToDashboard() }
         binding.btnDriveHome.setOnLongClickListener {
-            if (!isMoving()) openSettings()
+            if (!isMoving()) DashboardEditorDialog.show(this, Prefs.dashboardConfig) { config ->
+                if (!isMoving()) {
+                    Prefs.dashboardConfig = config
+                    dashboard.apply(config)
+                }
+            }
             true
         }
         binding.dockStrip.btnAllApps.setOnClickListener { drawer.open() }
