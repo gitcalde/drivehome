@@ -136,66 +136,11 @@
             android:layout_height="@dimen/gap" />
 
         <!-- [8] System controls: theme, vehicle settings, updater -->
-        <LinearLayout
+        <include
             android:id="@+id/systemDock"
+            layout="@layout/view_system_dock"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dock_height"
-            android:background="@drawable/bg_dock"
-            android:baselineAligned="false"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp">
-
-            <ImageButton
-                android:id="@+id/btnTheme"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_dock_item"
-                android:contentDescription="@string/dock_theme"
-                android:padding="14dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_theme" />
-
-            <ImageButton
-                android:id="@+id/btnSettings"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_dock_item"
-                android:contentDescription="@string/dock_settings"
-                android:padding="14dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_settings" />
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <ImageButton
-                    android:id="@+id/btnAbout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_dock_item"
-                    android:contentDescription="@string/dock_updates"
-                    android:padding="14dp"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/ic_update" />
-
-                <View
-                    android:id="@+id/updateBadge"
-                    android:layout_width="@dimen/badge_size"
-                    android:layout_height="@dimen/badge_size"
-                    android:layout_gravity="top|end"
-                    android:layout_marginTop="14dp"
-                    android:layout_marginEnd="14dp"
-                    android:background="@drawable/badge_dot"
-                    android:contentDescription="@string/update_available_badge"
-                    android:visibility="gone" />
-            </FrameLayout>
-        </LinearLayout>
+            android:layout_height="@dimen/dock_height" />
     </LinearLayout>
 
     <!-- =========================== MAP SEARCH ============================ -->
@@ -212,95 +157,14 @@
 
     <!-- ============================== DRAWER ============================== -->
     <!-- Full screen and last in the file, so it draws above the map. -->
-    <LinearLayout
+    <include
         android:id="@+id/drawerContainer"
+        layout="@layout/panel_app_drawer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/cockpit_scrim"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="vertical"
-        android:padding="@dimen/screen_padding"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_search"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_search" />
-
-                <EditText
-                    android:id="@+id/searchInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:autofillHints=""
-                    android:background="@null"
-                    android:hint="@string/search_apps"
-                    android:imeOptions="actionSearch|flagNoExtractUi"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:minHeight="56dp"
-                    android:singleLine="true"
-                    android:textColor="@color/cockpit_text_primary"
-                    android:textColorHint="@color/cockpit_text_dim"
-                    android:textSize="@dimen/search_text" />
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/btnCloseDrawer"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_dock_item"
-                android:contentDescription="@string/close_drawer"
-                android:src="@drawable/ic_close" />
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/appGrid"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingBottom="8dp"
-                android:scrollbars="vertical" />
-
-            <TextView
-                android:id="@+id/drawerEmpty"
-                style="@style/Text.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/loading_apps"
-                android:visibility="gone" />
-        </FrameLayout>
-    </LinearLayout>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

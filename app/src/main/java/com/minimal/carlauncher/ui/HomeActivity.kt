@@ -77,7 +77,7 @@ class HomeActivity : AppCompatActivity() {
         val repository = app.appRepository
 
         dock = DockController(this, binding.dockStrip, repository, lifecycleScope)
-        drawer = DrawerController(this, binding, repository, lifecycleScope) { entry ->
+        drawer = DrawerController(this, binding.drawerContainer, repository, lifecycleScope) { entry ->
             dock.pin(entry)
         }
         cards = QuickCardsController(
@@ -121,15 +121,15 @@ class HomeActivity : AppCompatActivity() {
 
     private fun bindDockActions() {
         binding.dockStrip.btnAllApps.setOnClickListener { drawer.open() }
-        binding.btnTheme.setOnClickListener { toggleTheme() }
+        binding.systemDock.btnTheme.setOnClickListener { toggleTheme() }
         // Tap goes to the car / factory settings, long-press to this launcher's own settings -
         // so the common case stays one tap and the system dock keeps its three fixed actions.
-        binding.btnSettings.setOnClickListener { openVehicleSettings() }
-        binding.btnSettings.setOnLongClickListener {
+        binding.systemDock.btnSettings.setOnClickListener { openVehicleSettings() }
+        binding.systemDock.btnSettings.setOnLongClickListener {
             openSettings()
             true
         }
-        binding.btnAbout.setOnClickListener { openAbout() }
+        binding.systemDock.btnAbout.setOnClickListener { openAbout() }
     }
 
     /** Clock, world clock and alarms live in one app; AOSP DeskClock is the fallback. */
@@ -146,7 +146,7 @@ class HomeActivity : AppCompatActivity() {
      */
     private fun openVehicleSettings() {
         Prefs.vehicleSettingsPackage?.let { stored ->
-            if (IntentUtil.launchStored(this, stored, binding.btnSettings)) return
+            if (IntentUtil.launchStored(this, stored, binding.systemDock.btnSettings)) return
             Prefs.vehicleSettingsPackage = null   // it was uninstalled
         }
         if (!IntentUtil.openSystemSettings(this)) toast(getString(R.string.could_not_launch))
@@ -157,7 +157,7 @@ class HomeActivity : AppCompatActivity() {
         val nightNow = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
             Configuration.UI_MODE_NIGHT_YES
         val mode = if (nightNow) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
-        binding.btnTheme.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+        binding.systemDock.btnTheme.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
         Prefs.themeMode = mode
         // AppCompat recreates the activity itself; the ViewModel keeps the GPS session alive.
         AppCompatDelegate.setDefaultNightMode(mode)
@@ -215,7 +215,7 @@ class HomeActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 app.updateRepository.badgeVisible.collect { visible ->
-                    binding.updateBadge.visibility =
+                    binding.systemDock.updateBadge.visibility =
                         if (visible) View.VISIBLE else View.GONE
                 }
             }
