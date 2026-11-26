@@ -309,71 +309,12 @@
 
         <!-- [1] Clock & calendar. TextClock ticks itself from the system time broadcasts
              (once a second only because the seconds field asks for it). Tap opens alarms. -->
-        <LinearLayout
+        <include
             android:id="@+id/gaugeClock"
+            layout="@layout/widget_clock"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_gauge"
-            android:clickable="true"
-            android:contentDescription="@string/clock_open"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/tile_padding">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:orientation="horizontal">
-
-                <TextClock
-                    android:id="@+id/clockTime"
-                    style="@style/Text.Gauge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:format12Hour="h:mm"
-                    android:format24Hour="HH:mm"
-                    android:textSize="@dimen/clock_text"
-                    tools:text="12:47" />
-
-                <TextClock
-                    android:id="@+id/clockSeconds"
-                    style="@style/Text.Gauge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:format12Hour="ss"
-                    android:format24Hour="ss"
-                    android:textColor="@color/cockpit_accent"
-                    android:textSize="@dimen/clock_seconds_text"
-                    tools:text="09" />
-            </LinearLayout>
-
-            <TextClock
-                android:id="@+id/clockDay"
-                style="@style/Text.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:format12Hour="EEEE"
-                android:format24Hour="EEEE"
-                android:textColor="@color/cockpit_accent"
-                android:textSize="@dimen/date_text"
-                tools:text="TUESDAY" />
-
-            <TextClock
-                android:id="@+id/clockDate"
-                style="@style/Text.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:format12Hour="d MMMM yyyy"
-                android:format24Hour="d MMMM yyyy"
-                android:textAllCaps="false"
-                android:textSize="@dimen/date_text"
-                tools:text="16 September 2026" />
-        </LinearLayout>
+            android:layout_weight="1" />
 
         <Space
             android:layout_width="match_parent"

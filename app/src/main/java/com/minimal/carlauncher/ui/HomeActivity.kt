@@ -116,7 +116,7 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
-        binding.gaugeClock.setOnClickListener { openClock() }
+        binding.gaugeClock.root.setOnClickListener { openClock() }
     }
 
     private fun bindDockActions() {
