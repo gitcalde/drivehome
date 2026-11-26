@@ -86,7 +86,7 @@ class HomeActivity : AppCompatActivity() {
         )
         map = MapPortalController(this, binding) { isMoving() }
         radioWidget = RadioWidgetController(
-            this, binding, app.radioRepository, repository, lifecycleScope
+            this, binding.radioCard, app.radioRepository, repository, lifecycleScope
         )
 
         dock.bind()
