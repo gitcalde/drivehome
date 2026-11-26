@@ -42,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val viewModel: HomeViewModel by viewModels()
 
+    private lateinit var dashboard: DashboardController
     private lateinit var dock: DockController
     private lateinit var drawer: DrawerController
     private lateinit var cards: QuickCardsController
@@ -72,6 +73,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
+        dashboard = DashboardController(binding)
+        dashboard.apply(Prefs.dashboardConfig)
         setContentView(binding.root)
 
         val repository = app.appRepository
