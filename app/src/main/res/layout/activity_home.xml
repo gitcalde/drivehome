@@ -27,6 +27,23 @@
                 layout="@layout/drivehome_wordmark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/dashboardGpsStatus"
+                android:minHeight="48dp"
+                android:focusable="true"
+                style="@style/Text.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end|center_vertical"
+                android:text="@string/dashboard_gps_waiting"
+                android:textSize="14sp"
+                android:letterSpacing="0.02" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dock_height"
             android:layout_marginTop="@dimen/gap"
+            android:background="@drawable/bg_dock"
             android:orientation="horizontal">
 
             <include
@@ -81,9 +99,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5" />
 
-            <Space
-                android:layout_width="@dimen/gap"
-                android:layout_height="match_parent" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/cockpit_divider" />
 
             <include
                 android:id="@+id/systemDock"

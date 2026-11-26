@@ -5,7 +5,6 @@
     android:id="@+id/systemDock"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dock_height"
-    android:background="@drawable/bg_dock"
     android:baselineAligned="false"
     android:gravity="center_vertical"
     android:orientation="horizontal"
