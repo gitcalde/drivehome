@@ -3,7 +3,7 @@
 
     <style name="Theme.CarLauncher" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/cockpit_accent</item>
-        <item name="colorOnPrimary">@color/cockpit_bg</item>
+        <item name="colorOnPrimary">@color/cockpit_on_accent</item>
         <item name="colorSecondary">@color/cockpit_accent</item>
         <item name="colorSurface">@color/cockpit_surface</item>
         <item name="colorOnSurface">@color/cockpit_text_primary</item>

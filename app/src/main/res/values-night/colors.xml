@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Night cockpit: near-black so the display does not wash out the windscreen after dark. -->
 <resources>
-    <color name="cockpit_bg">#FF07090C</color>
-    <color name="cockpit_surface">#FF141A22</color>
-    <color name="cockpit_surface_alt">#FF1E262F</color>
-    <color name="cockpit_divider">#33FFFFFF</color>
+    <color name="cockpit_bg">#FF101418</color>
+    <color name="cockpit_surface">@color/drivehome_brand_graphite</color>
+    <color name="cockpit_surface_alt">@color/drivehome_brand_surface</color>
+    <color name="cockpit_divider">#334D6070</color>
 
-    <color name="cockpit_text_primary">#FFF2F5F8</color>
-    <color name="cockpit_text_secondary">#FFC2CCD8</color>
-    <color name="cockpit_text_dim">#FF7C8795</color>
+    <color name="cockpit_text_primary">@color/drivehome_brand_text</color>
+    <color name="cockpit_text_secondary">@color/drivehome_brand_muted</color>
+    <color name="cockpit_text_dim">#FF9AA3AD</color>
 
-    <color name="cockpit_accent">#FF41C7F0</color>
-    <color name="cockpit_accent_dim">#FF2A6E85</color>
-    <color name="cockpit_speed">#FF41C7F0</color>
+    <color name="cockpit_accent">@color/drivehome_brand_blue</color>
+    <color name="cockpit_accent_dim">#FF5CAFFF</color>
+    <color name="cockpit_speed">@color/drivehome_brand_blue</color>
     <color name="cockpit_badge">#FFFF5252</color>
 
-    <color name="cockpit_scrim">#F207090C</color>
-    <color name="cockpit_ripple">#33FFFFFF</color>
+    <color name="cockpit_scrim">#F2101418</color>
+    <color name="cockpit_ripple">#330A84FF</color>
 
-    <color name="cockpit_hud">#E607090C</color>
+    <color name="cockpit_hud">#F21B1F24</color>
     <color name="cockpit_ok">#FF4CD964</color>
     <color name="cockpit_warn">#FFFFB020</color>
+    <color name="cockpit_on_accent">#FF101418</color>
 </resources>
