@@ -18,15 +18,15 @@ class NightMapPaletteTest {
     fun `light land becomes dark and dark labels stay bright`() {
         val land = transform(242, 239, 233)
         val label = transform(30, 30, 30)
-        assertTrue(land.all { it < 50 })
-        assertTrue(label.zip(land).all { (light, dark) -> light - dark > 140 })
+        assertTrue("Land RGB=$land; matrix=${NightMapPalette.matrix().contentToString()}", land.all { it < 50 })
+        assertTrue("Label RGB=$label; land RGB=$land", label.zip(land).all { (light, dark) -> light - dark > 140 })
     }
 
     @Test
     fun `cyan water becomes cool rather than brown`() {
         val water = transform(170, 211, 223)
-        assertTrue(water[2] > water[1])
-        assertTrue(water[1] > water[0])
+        assertTrue("Water RGB=$water; matrix=${NightMapPalette.matrix().contentToString()}", water[2] > water[1])
+        assertTrue("Water RGB=$water", water[1] > water[0])
     }
 
     @Test
