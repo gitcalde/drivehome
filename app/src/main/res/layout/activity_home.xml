@@ -17,35 +17,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/gap">
-            <include
-                layout="@layout/drivehome_wordmark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/dashboardGpsStatus"
-                android:minHeight="48dp"
-                android:focusable="true"
-                style="@style/Text.Caption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end|center_vertical"
-                android:text="@string/dashboard_gps_waiting"
-                android:textSize="14sp"
-                android:letterSpacing="0.02" />
-        </LinearLayout>
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dashboardGrid"
             android:layout_width="match_parent"
@@ -91,6 +62,16 @@
             android:layout_marginTop="@dimen/gap"
             android:background="@drawable/bg_dock"
             android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnDriveHome"
+                android:layout_width="@dimen/dock_height"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_dock_item"
+                android:contentDescription="@string/dashboard_home_action"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_dock_drivehome" />
 
             <include
                 android:id="@+id/dockStrip"

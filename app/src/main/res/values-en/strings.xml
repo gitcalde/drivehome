@@ -228,4 +228,5 @@
     <string name="dashboard_gps_disabled">Location off</string>
     <string name="dashboard_gps_waiting">Acquiring GPS</string>
     <string name="dashboard_gps_ready">GPS connected</string>
+    <string name="dashboard_home_action">DriveHome. Tap to return home; hold to open settings</string>
 </resources>
