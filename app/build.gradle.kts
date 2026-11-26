@@ -5,12 +5,36 @@ plugins {
     alias(libs.plugins.kotlin.android)
 }
 
-// Optional release signing. Copy keystore.properties.sample -> keystore.properties and fill it in.
+// Stable signing: local properties or environment variables in the protected CI job.
 // IMPORTANT: every release MUST be signed with the same key, otherwise the in-app updater's
 // install will fail with INSTALL_FAILED_UPDATE_INCOMPATIBLE.
 val keystorePropsFile = rootProject.file("keystore.properties")
 val keystoreProps = Properties().apply {
     if (keystorePropsFile.exists()) keystorePropsFile.inputStream().use { load(it) }
+}
+val signingEnv = mapOf(
+    "storeFile" to "DRIVEHOME_KEYSTORE_FILE",
+    "storePassword" to "KEYSTORE_PASSWORD",
+    "keyAlias" to "KEY_ALIAS",
+    "keyPassword" to "KEY_PASSWORD"
+)
+val stableSigningRequested = System.getenv("DRIVEHOME_SIGNING_REQUIRED") == "true"
+if (stableSigningRequested) {
+    signingEnv.forEach { (property, variable) ->
+        val value = System.getenv(variable)
+        require(!value.isNullOrBlank()) { "Missing required signing variable: $variable" }
+        keystoreProps.setProperty(property, value)
+    }
+}
+if (keystoreProps.isNotEmpty()) {
+    signingEnv.keys.forEach { property ->
+        require(!keystoreProps.getProperty(property).isNullOrBlank()) {
+            "Missing signing property: $property"
+        }
+    }
+    require(project.file(keystoreProps.getProperty("storeFile")).isFile) {
+        "Signing keystore file does not exist"
+    }
 }
 
 android {
@@ -53,7 +77,11 @@ android {
             }
         }
         debug {
-            // No applicationIdSuffix on purpose: a debug install must be upgradable by a release APK.
+            // Protected personal builds use the same certificate as releases.
+            // Ordinary PR builds retain Android's temporary debug signing.
+            if (keystoreProps.isNotEmpty()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = false
         }
     }
