@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Minimal Car Launcher</string>
+    <string name="app_name">DriveHome</string>
 
     <!-- Dashboard -->
     <string name="speed_placeholder">--</string>
@@ -66,7 +66,7 @@
     <string name="radio_unreachable">The radio is not responding — opening it</string>
     <string name="radio_tune_ignored">The radio app did not accept direct tuning</string>
     <string name="pick_radio_app">Choose the car radio app</string>
-    <string name="radio_access_hint">Enable notification access for Minimal Car Launcher</string>
+    <string name="radio_access_hint">Enable notification access for DriveHome</string>
     <string name="radio_access_title">Radio sync</string>
     <string name="radio_access_adb">This head unit hides the notification-access screen. Grant it once over adb:\n\nadb shell cmd notification allow_listener %1$s</string>
 
