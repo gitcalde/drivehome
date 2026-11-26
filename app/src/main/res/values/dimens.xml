@@ -73,4 +73,8 @@
     <dimen name="nav_subtitle_text">15sp</dimen>
     <dimen name="nav_button_height">48dp</dimen>
     <dimen name="dashboard_speed_text">48sp</dimen>
+    <dimen name="dashboard_clock_text">64sp</dimen>
+    <dimen name="dashboard_projection_icon">64dp</dimen>
+    <dimen name="dashboard_quick_icon">52dp</dimen>
+    <dimen name="dashboard_icon_padding">12dp</dimen>
 </resources>

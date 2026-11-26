@@ -26,7 +26,8 @@
             android:layout_height="wrap_content"
             android:format12Hour="h:mm"
             android:format24Hour="HH:mm"
-            android:textSize="@dimen/clock_text"
+            android:fontFamily="sans-serif-black"
+            android:textSize="@dimen/dashboard_clock_text"
             tools:text="12:47" />
 
         <TextClock
@@ -34,7 +35,7 @@
             style="@style/Text.Gauge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="8dp"
             android:format12Hour="ss"
             android:format24Hour="ss"
             android:textColor="@color/cockpit_accent"
@@ -47,9 +48,10 @@
         style="@style/Text.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="8dp"
         android:format12Hour="EEEE"
         android:format24Hour="EEEE"
+        android:letterSpacing="0.10"
         android:textColor="@color/cockpit_accent"
         android:textSize="@dimen/date_text"
         tools:text="TUESDAY" />
@@ -61,6 +63,8 @@
         android:layout_height="wrap_content"
         android:format12Hour="d MMMM yyyy"
         android:format24Hour="d MMMM yyyy"
+        android:layout_marginTop="4dp"
+        android:letterSpacing="0.02"
         android:textAllCaps="false"
         android:textSize="@dimen/date_text"
         tools:text="16 September 2026" />
