@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/searchPanel"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@color/cockpit_scrim"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:padding="@dimen/screen_padding"
+    android:visibility="gone"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:visibility="gone">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_search"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_place" />
+
+            <EditText
+                android:id="@+id/mapSearchInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:autofillHints=""
+                android:background="@null"
+                android:hint="@string/map_search_hint"
+                android:imeOptions="actionSearch|flagNoExtractUi"
+                android:inputType="textPostalAddress"
+                android:maxLines="1"
+                android:minHeight="56dp"
+                android:singleLine="true"
+                android:textColor="@color/cockpit_text_primary"
+                android:textColorHint="@color/cockpit_text_dim"
+                android:textSize="@dimen/search_text" />
+        </LinearLayout>
+
+        <!-- Head-unit keyboards often have no Search key, so there is a button too. -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnMapSearchGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:minHeight="56dp"
+            android:text="@string/map_search_go"
+            app:icon="@drawable/ic_search"
+            app:iconTint="?attr/colorOnPrimary" />
+
+        <ImageButton
+            android:id="@+id/btnMapSearchClose"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_dock_item"
+            android:contentDescription="@string/close_drawer"
+            android:src="@drawable/ic_close" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/mapSearchStatus"
+        style="@style/Text.Caption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:text="Searching…"
+        tools:visibility="visible" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mapSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+</LinearLayout>

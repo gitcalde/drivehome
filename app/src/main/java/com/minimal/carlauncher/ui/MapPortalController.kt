@@ -14,7 +14,8 @@ import com.minimal.carlauncher.R
 import com.minimal.carlauncher.core.Constants
 import com.minimal.carlauncher.core.Format
 import com.minimal.carlauncher.core.Prefs
-import com.minimal.carlauncher.databinding.ActivityHomeBinding
+import com.minimal.carlauncher.databinding.WidgetMapBinding
+import com.minimal.carlauncher.databinding.PanelMapSearchBinding
 import com.minimal.carlauncher.location.VehicleState
 import com.minimal.carlauncher.map.GeocodingClient
 import com.minimal.carlauncher.map.Place
@@ -44,7 +45,8 @@ import kotlin.math.abs
  */
 class MapPortalController(
     private val activity: AppCompatActivity,
-    private val binding: ActivityHomeBinding,
+    private val binding: WidgetMapBinding,
+    searchBinding: PanelMapSearchBinding,
     private val isMoving: () -> Boolean
 ) {
 
@@ -60,7 +62,7 @@ class MapPortalController(
     private var pinned: Place? = null
     private var destinationMarker: Marker? = null
 
-    private val search = MapSearchPanel(activity, binding) { place -> showPlace(place) }
+    private val search = MapSearchPanel(activity, searchBinding) { place -> showPlace(place) }
 
     private val navigator by lazy {
         MapNavigator(activity, binding, mapView, this::addBelowCar) { onNavigationEnded() }

@@ -84,7 +84,7 @@ class HomeActivity : AppCompatActivity() {
             this, binding.cardProjection, binding.cardNav, binding.cardMusic,
             repository, lifecycleScope
         )
-        map = MapPortalController(this, binding) { isMoving() }
+        map = MapPortalController(this, binding.mapPortal, binding.searchPanel) { isMoving() }
         radioWidget = RadioWidgetController(
             this, binding.radioCard, app.radioRepository, repository, lifecycleScope
         )
@@ -104,7 +104,7 @@ class HomeActivity : AppCompatActivity() {
     // ------------------------------------------------------------------ wiring
 
     private fun bindDashboardClicks() {
-        binding.gaugeSpeed.setOnClickListener { view ->
+        binding.mapPortal.gaugeSpeed.setOnClickListener { view ->
             val state = viewModel.vehicle.value
             when {
                 !state.permissionGranted -> requestLocation()
@@ -227,9 +227,9 @@ class HomeActivity : AppCompatActivity() {
     private fun render(state: VehicleState) {
         val unit = viewModel.speedUnit.value
 
-        binding.textSpeed.text = Format.speedText(unit, state.speedMps, state.hasFix)
-        binding.textSpeedUnit.text = Format.unitLabel(unit)
-        binding.textSpeedStatus.setText(
+        binding.mapPortal.textSpeed.text = Format.speedText(unit, state.speedMps, state.hasFix)
+        binding.mapPortal.textSpeedUnit.text = Format.unitLabel(unit)
+        binding.mapPortal.textSpeedStatus.setText(
             when {
                 !state.permissionGranted -> R.string.gps_permission_needed
                 !state.gpsEnabled -> R.string.gps_disabled
@@ -237,7 +237,7 @@ class HomeActivity : AppCompatActivity() {
                 else -> R.string.gps_lock
             }
         )
-        binding.textSpeedStatus.setTextColor(
+        binding.mapPortal.textSpeedStatus.setTextColor(
             ContextCompat.getColor(
                 this,
                 when {
@@ -253,9 +253,9 @@ class HomeActivity : AppCompatActivity() {
         val heading = state.headingDeg
         if (heading == null) {
             lastCardinal = null
-            binding.textCardinal.setText(R.string.speed_placeholder)
-            binding.textDegrees.text = ""
-            binding.textHeadingSource.setText(
+            binding.mapPortal.textCardinal.setText(R.string.speed_placeholder)
+            binding.mapPortal.textDegrees.text = ""
+            binding.mapPortal.textHeadingSource.setText(
                 if (viewModel.compassAvailable) R.string.heading else R.string.no_compass
             )
         } else {
@@ -263,11 +263,11 @@ class HomeActivity : AppCompatActivity() {
                 heading, lastCardinal, Prefs.compass16Point
             )
             lastCardinal = cardinal
-            binding.textCardinal.text = if (resources.configuration.locales[0].language == "en") cardinal else cardinal.replace('W', 'O')
-            binding.textDegrees.text = Format.degreesText(heading)
+            binding.mapPortal.textCardinal.text = if (resources.configuration.locales[0].language == "en") cardinal else cardinal.replace('W', 'O')
+            binding.mapPortal.textDegrees.text = Format.degreesText(heading)
             // Showing the source keeps a wrong stationary magnetometer reading from being
             // mistaken for the truth.
-            binding.textHeadingSource.setText(
+            binding.mapPortal.textHeadingSource.setText(
                 if (state.headingSource == HeadingSource.GPS) R.string.heading_source_gps
                 else R.string.heading_source_mag
             )
