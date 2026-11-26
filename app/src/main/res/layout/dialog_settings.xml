@@ -46,6 +46,22 @@
                 android:text="@string/theme_system" />
         </RadioGroup>
 
+        <CheckBox
+            android:id="@+id/checkImmersiveMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/settings_immersive" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/settings_immersive_hint"
+            android:textColor="@color/cockpit_text_dim"
+            android:textSize="12sp" />
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

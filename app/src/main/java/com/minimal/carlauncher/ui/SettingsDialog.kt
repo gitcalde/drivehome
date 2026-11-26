@@ -51,6 +51,12 @@ object SettingsDialog {
             .setPositiveButton(R.string.action_close, null)
             .create()
 
+        val immersive = view.findViewById<CheckBox>(R.id.checkImmersiveMode)
+        immersive.isChecked = Prefs.immersiveMode
+        immersive.setOnCheckedChangeListener { _, checked ->
+            Prefs.immersiveMode = checked
+        }
+
         unitGroup.setOnCheckedChangeListener { _, checkedId ->
             Prefs.speedUnit =
                 if (checkedId == R.id.unitMph) Format.UNIT_MPH else Format.UNIT_KMH

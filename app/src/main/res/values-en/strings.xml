@@ -229,4 +229,6 @@
     <string name="dashboard_gps_waiting">Acquiring GPS</string>
     <string name="dashboard_gps_ready">GPS connected</string>
     <string name="dashboard_home_action">DriveHome. Tap to return home; hold to open settings</string>
+    <string name="settings_immersive">Immersive mode (full screen)</string>
+    <string name="settings_immersive_hint">Hides Android system bars. Swipe from the edge to reveal them temporarily.</string>
 </resources>
