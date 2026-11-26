@@ -175,4 +175,15 @@
     <string name="update_file_missing">El archivo descargado ya no existe</string>
     <string name="update_file_share_failed">No se ha podido compartir el archivo de actualización</string>
     <string name="update_installer_missing">Este dispositivo no tiene instalador de aplicaciones — instala el APK manualmente desde %1$s</string>
+    <string name="update_repo_unconfigured">Repositorio de actualizaciones sin configurar</string>
+    <string name="update_malformed_release">Datos de versión no válidos</string>
+    <string name="update_no_releases">No se han encontrado versiones</string>
+    <string name="update_repo_not_found">No se ha encontrado el repositorio o sus versiones</string>
+    <string name="update_http_refused">GitHub ha rechazado la solicitud (HTTP %1$d)</string>
+    <string name="update_http_error">HTTP %1$d</string>
+    <string name="update_network_error">Error de conexión</string>
+    <string name="update_redirects">Demasiadas redirecciones</string>
+    <string name="update_invalid_apk">El archivo descargado no es un APK válido</string>
+    <string name="update_finalize_failed">No se ha podido finalizar la descarga</string>
+    <string name="update_download_failed">Error de descarga</string>
 </resources>

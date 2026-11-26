@@ -1,5 +1,7 @@
 package com.minimal.carlauncher.update
 
+import android.content.Context
+import com.minimal.carlauncher.R
 import com.minimal.carlauncher.BuildConfig
 import com.minimal.carlauncher.core.Constants
 import kotlinx.coroutines.Dispatchers
@@ -16,7 +18,7 @@ import java.net.URL
  * Uses HttpURLConnection + org.json, both of which are in android.jar. Retrofit/Moshi would
  * add roughly a megabyte and R8 keep rules for a single GET of one small object.
  */
-class GitHubReleaseClient {
+class GitHubReleaseClient(private val context: Context) {
 
     sealed interface Result {
         data class Success(val release: ReleaseInfo) : Result
@@ -27,7 +29,7 @@ class GitHubReleaseClient {
 
     suspend fun fetchLatest(): Result = withContext(Dispatchers.IO) {
         if (!Constants.isUpdaterConfigured) {
-            return@withContext Result.Failure("Updater repository is not configured")
+            return@withContext Result.Failure(context.getString(R.string.update_repo_unconfigured))
         }
         val base = "https://api.github.com/repos/${Constants.GITHUB_OWNER}/${Constants.GITHUB_REPO}"
 
@@ -39,7 +41,7 @@ class GitHubReleaseClient {
                     null
                 }
                 if (release != null) Result.Success(release)
-                else Result.Failure("Malformed release data")
+                else Result.Failure(context.getString(R.string.update_malformed_release))
             }
             // /releases/latest 404s when the repo only has pre-releases.
             is Body.NotFound -> fetchFirstFromList("$base/releases?per_page=10")
@@ -60,9 +62,9 @@ class GitHubReleaseClient {
             } catch (e: Exception) {
                 null
             }
-            if (release != null) Result.Success(release) else Result.Failure("No releases found")
+            if (release != null) Result.Success(release) else Result.Failure(context.getString(R.string.update_no_releases))
         }
-        is Body.NotFound -> Result.Failure("Repository or releases not found")
+        is Body.NotFound -> Result.Failure(context.getString(R.string.update_repo_not_found))
         is Body.RateLimited -> Result.SoftFailure
         is Body.Error -> if (listed.offline) Result.SoftFailure else Result.Failure(listed.message)
     }
@@ -95,13 +97,13 @@ class GitHubReleaseClient {
                 403, 429 -> {
                     val remaining = connection.getHeaderField("X-RateLimit-Remaining")
                     if (remaining == "0") Body.RateLimited
-                    else Body.Error("GitHub refused the request (HTTP $code)", offline = false)
+                    else Body.Error(context.getString(R.string.update_http_refused, code), offline = false)
                 }
-                else -> Body.Error("HTTP $code", offline = false)
+                else -> Body.Error(context.getString(R.string.update_http_error, code), offline = false)
             }
         } catch (e: Exception) {
             // DNS/socket failures on a car with no SIM are expected, not errors worth showing.
-            Body.Error(e.message ?: "Network error", offline = true)
+            Body.Error(context.getString(R.string.update_network_error), offline = true)
         } finally {
             connection?.disconnect()
         }

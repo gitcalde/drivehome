@@ -175,4 +175,15 @@
     <string name="update_file_missing">The downloaded file is gone</string>
     <string name="update_file_share_failed">Could not share the update file</string>
     <string name="update_installer_missing">No package installer on this device — install the APK manually from %1$s</string>
+    <string name="update_repo_unconfigured">Updater repository is not configured</string>
+    <string name="update_malformed_release">Malformed release data</string>
+    <string name="update_no_releases">No releases found</string>
+    <string name="update_repo_not_found">Repository or releases not found</string>
+    <string name="update_http_refused">GitHub refused the request (HTTP %1$d)</string>
+    <string name="update_http_error">HTTP %1$d</string>
+    <string name="update_network_error">Network error</string>
+    <string name="update_redirects">Too many redirects</string>
+    <string name="update_invalid_apk">Downloaded file is not a valid APK</string>
+    <string name="update_finalize_failed">Could not finalise the download</string>
+    <string name="update_download_failed">Download failed</string>
 </resources>

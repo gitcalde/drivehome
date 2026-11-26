@@ -37,8 +37,8 @@ class UpdateRepository(
 ) {
 
     private val appContext = context.applicationContext
-    private val client = GitHubReleaseClient()
-    private val downloader = ApkDownloader()
+    private val client = GitHubReleaseClient(appContext)
+    private val downloader = ApkDownloader(appContext)
 
     private val _state = MutableStateFlow<UpdateState>(
         if (Constants.isUpdaterConfigured) UpdateState.Idle else UpdateState.NotConfigured

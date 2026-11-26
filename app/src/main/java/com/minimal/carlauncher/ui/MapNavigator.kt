@@ -201,7 +201,7 @@ class MapNavigator(
         val unit = Prefs.speedUnit
         binding.cardGlyph.text = Maneuvers.glyph(p.nextStep)
         binding.cardTitle.text = Format.distanceText(unit, p.metresToNextStep)
-        binding.cardSubtitle.text = Maneuvers.instruction(p.nextStep)
+        binding.cardSubtitle.text = Maneuvers.instruction(p.nextStep, activity.resources.configuration.locales[0].language)
         val eta = DateFormat.getTimeFormat(activity)
             .format(Date(System.currentTimeMillis() + (p.remainingS * 1000).toLong()))
         binding.cardSummary.text = activity.getString(

@@ -1,5 +1,7 @@
 package com.minimal.carlauncher.update
 
+import android.content.Context
+import com.minimal.carlauncher.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +27,7 @@ sealed interface DownloadProgress {
  * posts its own notification, and it wants a public destination rather than the private
  * cache dir sitting behind our FileProvider.
  */
-class ApkDownloader {
+class ApkDownloader(private val context: Context) {
 
     fun download(url: String, dest: File): Flow<DownloadProgress> = flow {
         dest.parentFile?.mkdirs()
@@ -36,11 +38,11 @@ class ApkDownloader {
         try {
             connection = openFollowingRedirects(url)
             if (connection == null) {
-                emit(DownloadProgress.Failed("Too many redirects"))
+                emit(DownloadProgress.Failed(context.getString(R.string.update_redirects)))
                 return@flow
             }
             if (connection.responseCode !in 200..299) {
-                emit(DownloadProgress.Failed("HTTP ${connection.responseCode}"))
+                emit(DownloadProgress.Failed(context.getString(R.string.update_http_error, connection.responseCode)))
                 return@flow
             }
 
@@ -77,7 +79,7 @@ class ApkDownloader {
 
             if (!looksLikeApk(tmp)) {
                 tmp.delete()
-                emit(DownloadProgress.Failed("Downloaded file is not a valid APK"))
+                emit(DownloadProgress.Failed(context.getString(R.string.update_invalid_apk)))
                 return@flow
             }
 
@@ -85,14 +87,14 @@ class ApkDownloader {
             // Rename only on success - never hand a truncated APK to the package installer.
             if (!tmp.renameTo(dest)) {
                 tmp.delete()
-                emit(DownloadProgress.Failed("Could not finalise the download"))
+                emit(DownloadProgress.Failed(context.getString(R.string.update_finalize_failed)))
                 return@flow
             }
 
             emit(DownloadProgress.Running(written, total))
             emit(DownloadProgress.Done(dest))
         } catch (e: Exception) {
-            emit(DownloadProgress.Failed(e.message ?: "Download failed"))
+            emit(DownloadProgress.Failed(context.getString(R.string.update_download_failed)))
         } finally {
             connection?.disconnect()
             if (tmp.exists()) tmp.delete()

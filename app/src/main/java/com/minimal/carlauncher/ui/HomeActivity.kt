@@ -260,7 +260,7 @@ class HomeActivity : AppCompatActivity() {
                 heading, lastCardinal, Prefs.compass16Point
             )
             lastCardinal = cardinal
-            binding.textCardinal.text = cardinal
+            binding.textCardinal.text = if (resources.configuration.locales[0].language == "en") cardinal else cardinal.replace('W', 'O')
             binding.textDegrees.text = Format.degreesText(heading)
             // Showing the source keeps a wrong stationary magnetometer reading from being
             // mistaken for the truth.
