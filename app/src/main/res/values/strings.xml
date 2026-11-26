@@ -229,4 +229,6 @@
     <string name="dashboard_gps_waiting">Buscando GPS</string>
     <string name="dashboard_gps_ready">GPS conectado</string>
     <string name="dashboard_home_action">DriveHome. Pulsa para volver al inicio; mantén pulsado para abrir los ajustes</string>
+    <string name="settings_immersive">Modo inmersivo (pantalla completa)</string>
+    <string name="settings_immersive_hint">Oculta las barras de Android. Desliza desde el borde para mostrarlas temporalmente.</string>
 </resources>

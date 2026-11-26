@@ -17,6 +17,7 @@ object Prefs {
 
     const val KEY_SPEED_UNIT = "pref_speed_unit"
     const val KEY_THEME_MODE = "pref_theme_mode"
+    const val KEY_IMMERSIVE_MODE = "pref_immersive_mode"
     const val KEY_COMPASS_SOURCE = "pref_compass_source"
     const val KEY_COMPASS_16 = "pref_compass_16point"
     const val KEY_NAV_PACKAGE = "pref_nav_package"
@@ -63,6 +64,10 @@ object Prefs {
     var themeMode: Int
         get() = sp.getInt(KEY_THEME_MODE, AppCompatDelegate.MODE_NIGHT_YES)
         set(value) = sp.edit().putInt(KEY_THEME_MODE, value).apply()
+
+    var immersiveMode: Boolean
+        get() = sp.getBoolean(KEY_IMMERSIVE_MODE, false)
+        set(value) = sp.edit().putBoolean(KEY_IMMERSIVE_MODE, value).apply()
 
     var compassSource: String
         get() = sp.getString(KEY_COMPASS_SOURCE, COMPASS_AUTO) ?: COMPASS_AUTO
