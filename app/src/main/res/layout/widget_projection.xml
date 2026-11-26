@@ -13,8 +13,10 @@
 
     <ImageView
         android:id="@+id/iconProjection"
-        android:layout_width="@dimen/card_icon_large"
-        android:layout_height="@dimen/card_icon_large"
+        android:layout_width="@dimen/dashboard_projection_icon"
+        android:layout_height="@dimen/dashboard_projection_icon"
+        android:background="@drawable/bg_widget_icon"
+        android:padding="@dimen/dashboard_icon_padding"
         android:contentDescription="@null"
         android:src="@drawable/ic_phone_link" />
 
@@ -23,10 +25,11 @@
         style="@style/Text.Gauge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:gravity="center"
         android:text="@string/card_projection"
+        android:fontFamily="sans-serif-medium"
         android:textSize="@dimen/card_label_text" />
 
     <TextView
@@ -35,7 +38,8 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
-        android:singleLine="true"
+        android:layout_marginTop="4dp"
+        android:maxLines="2"
         android:text="@string/projection_hint"
         android:textColor="@color/cockpit_text_dim"
         android:textSize="@dimen/card_sub_text" />
