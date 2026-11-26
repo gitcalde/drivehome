@@ -548,47 +548,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <!-- [5] Phone projection -->
-        <LinearLayout
+        <include
             android:id="@+id/cardProjection"
+            layout="@layout/widget_projection"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/bg_card"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="@dimen/tile_padding">
-
-            <ImageView
-                android:id="@+id/iconProjection"
-                android:layout_width="@dimen/card_icon_large"
-                android:layout_height="@dimen/card_icon_large"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_phone_link" />
-
-            <TextView
-                android:id="@+id/titleProjection"
-                style="@style/Text.Gauge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:text="@string/card_projection"
-                android:textSize="@dimen/card_label_text" />
-
-            <TextView
-                android:id="@+id/subtitleProjection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="@string/projection_hint"
-                android:textColor="@color/cockpit_text_dim"
-                android:textSize="@dimen/card_sub_text" />
-        </LinearLayout>
+            android:layout_weight="1" />
 
         <Space
             android:layout_width="match_parent"
@@ -602,93 +567,23 @@
             android:baselineAligned="false"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <include
                 android:id="@+id/cardNav"
+                layout="@layout/widget_navigation"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_card"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/tile_padding">
-
-                <ImageView
-                    android:id="@+id/iconNav"
-                    android:layout_width="@dimen/card_icon"
-                    android:layout_height="@dimen/card_icon"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_navigation" />
-
-                <TextView
-                    android:id="@+id/titleNav"
-                    style="@style/Text.Gauge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:text="@string/card_navigation"
-                    android:textSize="@dimen/card_label_text" />
-
-                <TextView
-                    android:id="@+id/subtitleNav"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/card_not_set"
-                    android:textColor="@color/cockpit_text_dim"
-                    android:textSize="@dimen/card_sub_text" />
-            </LinearLayout>
+                android:layout_weight="1" />
 
             <Space
                 android:layout_width="@dimen/gap"
                 android:layout_height="match_parent" />
 
-            <LinearLayout
+            <include
                 android:id="@+id/cardMusic"
+                layout="@layout/widget_music"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/bg_card"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/tile_padding">
-
-                <ImageView
-                    android:id="@+id/iconMusic"
-                    android:layout_width="@dimen/card_icon"
-                    android:layout_height="@dimen/card_icon"
-                    android:contentDescription="@null"
-                    android:src="@drawable/ic_music" />
-
-                <TextView
-                    android:id="@+id/titleMusic"
-                    style="@style/Text.Gauge"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:text="@string/card_music"
-                    android:textSize="@dimen/card_label_text" />
-
-                <TextView
-                    android:id="@+id/subtitleMusic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center"
-                    android:singleLine="true"
-                    android:text="@string/card_not_set"
-                    android:textColor="@color/cockpit_text_dim"
-                    android:textSize="@dimen/card_sub_text" />
-            </LinearLayout>
+                android:layout_weight="1" />
         </LinearLayout>
 
         <Space

@@ -80,7 +80,10 @@ class HomeActivity : AppCompatActivity() {
         drawer = DrawerController(this, binding, repository, lifecycleScope) { entry ->
             dock.pin(entry)
         }
-        cards = QuickCardsController(this, binding, repository, lifecycleScope)
+        cards = QuickCardsController(
+            this, binding.cardProjection, binding.cardNav, binding.cardMusic,
+            repository, lifecycleScope
+        )
         map = MapPortalController(this, binding) { isMoving() }
         radioWidget = RadioWidgetController(
             this, binding, app.radioRepository, repository, lifecycleScope
