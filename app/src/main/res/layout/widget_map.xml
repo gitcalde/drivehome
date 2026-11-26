@@ -3,26 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mapPortal"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:layout_marginTop="@dimen/screen_padding"
-    android:layout_marginBottom="@dimen/screen_padding"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintDimensionRatio="W,1:1"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_card"
+    android:clipToOutline="true">
 
     <com.minimal.carlauncher.ui.view.CompassBezelView
         android:id="@+id/compassBezel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
-    <com.minimal.carlauncher.ui.view.CircleClipLayout
+    <FrameLayout
         android:id="@+id/mapClip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/map_bezel_width"
         android:background="@color/cockpit_surface_alt">
 
         <org.osmdroid.views.MapView
@@ -90,7 +85,7 @@
                 android:text="@string/map_mode_heading" />
         </LinearLayout>
 
-        <!-- In-portal controls, at the widest part of the circle. -->
+        <!-- Map controls, centered vertically. -->
         <ImageButton
             android:id="@+id/btnMapSearch"
             android:layout_width="@dimen/map_button_size"
@@ -169,10 +164,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/gps_acquiring" />
         </LinearLayout>
-    </com.minimal.carlauncher.ui.view.CircleClipLayout>
+    </FrameLayout>
 
-    <!-- Place / navigation card. Outside the circular clip so it can be wider than the
-         top of the circle. Place mode: name + Navigate. Navigation mode: next manoeuvre,
+    <!-- Place / navigation card. Above the map and its controls. Place mode: name + Navigate. Navigation mode: next manoeuvre,
          distance to it, trip summary + End. -->
     <LinearLayout
         android:id="@+id/mapCard"

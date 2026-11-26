@@ -43,7 +43,7 @@ data class DashboardConfig(val placements: List<WidgetPlacement>) {
     }
 
     companion object {
-        const val COLUMNS = 4
+        const val COLUMNS = 6
         const val ROWS = 2
 
         // Proposed first modular layout. System controls and app drawer are always
@@ -51,7 +51,10 @@ data class DashboardConfig(val placements: List<WidgetPlacement>) {
         fun defaults() = DashboardConfig(listOf(
             WidgetPlacement(DashboardWidget.MAP, 0, 0, 2, 2),
             WidgetPlacement(DashboardWidget.CLOCK, 2, 0, 2, 1),
-            WidgetPlacement(DashboardWidget.RADIO, 2, 1, 2, 1)
+            WidgetPlacement(DashboardWidget.RADIO, 2, 1, 2, 1),
+            WidgetPlacement(DashboardWidget.PROJECTION, 4, 0, 2, 1),
+            WidgetPlacement(DashboardWidget.NAVIGATION, 4, 1, 1, 1),
+            WidgetPlacement(DashboardWidget.MUSIC, 5, 1, 1, 1)
         ))
     }
 }

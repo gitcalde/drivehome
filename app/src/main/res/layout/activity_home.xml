@@ -1,146 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  Three-column landscape cockpit:
-
-    LEFT                      CENTER                       RIGHT
-    [1] clock & calendar      [3] circular moving map      [5] phone projection
-    [2] FM/AM radio tuner     [4] speed HUD (in the map)   [6] navigation + music
-    [7] app dock + all apps                                [8] theme / vehicle / updater
-
-  The map portal is a circle sized by the screen height (dimensionRatio W,1:1); the side
-  columns take whatever width is left. The app drawer is a full-screen overlay in this same
-  layout rather than a fragment or second activity: opening it is a visibility flip with no
-  transaction, no window animation and no risk of the home task stacking.
--->
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cockpit_bg">
 
-    <!-- ========================= [3] MAP PORTAL ========================= -->
-    <include
-        android:id="@+id/mapPortal"
-        layout="@layout/widget_map"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/screen_padding"
-        android:layout_marginBottom="@dimen/screen_padding"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="W,1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- =========================== LEFT COLUMN =========================== -->
     <LinearLayout
-        android:id="@+id/leftColumn"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/screen_padding"
         android:orientation="vertical"
+        android:padding="@dimen/screen_padding"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/mapPortal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- [1] Clock & calendar. TextClock ticks itself from the system time broadcasts
-             (once a second only because the seconds field asks for it). Tap opens alarms. -->
-        <include
-            android:id="@+id/gaugeClock"
-            layout="@layout/widget_clock"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/gap" />
-
-        <!-- [2] FM/AM radio tuner -->
-        <include
-            android:id="@+id/radioCard"
-            layout="@layout/widget_radio"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.35" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/gap" />
-
-        <!-- [7] App dock + All Apps -->
-        <include
-            android:id="@+id/dockStrip"
-            layout="@layout/view_dock"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dock_height" />
-    </LinearLayout>
-
-    <!-- =========================== RIGHT COLUMN ========================== -->
-    <LinearLayout
-        android:id="@+id/rightColumn"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/screen_padding"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/mapPortal"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!-- [5] Phone projection -->
-        <include
-            android:id="@+id/cardProjection"
-            layout="@layout/widget_projection"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/gap" />
-
-        <!-- [6] Navigation + music -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/gap">
+            <include
+                layout="@layout/drivehome_wordmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/dashboardGrid"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <include
+                android:id="@+id/mapPortal"
+                layout="@layout/widget_map"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+            <include
+                android:id="@+id/gaugeClock"
+                layout="@layout/widget_clock"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+            <include
+                android:id="@+id/radioCard"
+                layout="@layout/widget_radio"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+            <include
+                android:id="@+id/cardProjection"
+                layout="@layout/widget_projection"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
             <include
                 android:id="@+id/cardNav"
                 layout="@layout/widget_navigation"
                 android:layout_width="0dp"
+                android:layout_height="0dp" />
+            <include
+                android:id="@+id/cardMusic"
+                layout="@layout/widget_music"
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Fixed controls are never part of the optional widget grid. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dock_height"
+            android:layout_marginTop="@dimen/gap"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/dockStrip"
+                layout="@layout/view_dock"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="5" />
 
             <Space
                 android:layout_width="@dimen/gap"
                 android:layout_height="match_parent" />
 
             <include
-                android:id="@+id/cardMusic"
-                layout="@layout/widget_music"
+                android:id="@+id/systemDock"
+                layout="@layout/view_system_dock"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="3" />
         </LinearLayout>
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/gap" />
-
-        <!-- [8] System controls: theme, vehicle settings, updater -->
-        <include
-            android:id="@+id/systemDock"
-            layout="@layout/view_system_dock"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dock_height" />
     </LinearLayout>
 
     <!-- =========================== MAP SEARCH ============================ -->

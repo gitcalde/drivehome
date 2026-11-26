@@ -17,6 +17,7 @@ class DashboardConfigTest {
     @Test
     fun `defaults are valid and round trip`() {
         assertTrue(defaults.isValid())
+        assertEquals(DashboardWidget.entries.toSet(), defaults.placements.map { it.widget }.toSet())
         assertEquals(defaults, DashboardCodec.decode(DashboardCodec.encode(defaults)))
         assertEquals(DashboardWidget.entries.size, DashboardWidget.entries.map { it.id }.distinct().size)
     }
@@ -34,7 +35,7 @@ class DashboardConfigTest {
     fun `invalid dimensions and coordinates are rejected`() {
         listOf(clock.copy(column = -1), clock.copy(row = 2),
             clock.copy(columns = 0), clock.copy(rows = 3),
-            clock.copy(column = 3, columns = 2), clock.copy(column = Int.MAX_VALUE),
+            clock.copy(column = DashboardConfig.COLUMNS - 1, columns = 2), clock.copy(column = Int.MAX_VALUE),
             clock.copy(columns = Int.MAX_VALUE),
             WidgetPlacement(DashboardWidget.MAP, 0, 0, 1, 1),
             WidgetPlacement(DashboardWidget.RADIO, 0, 0, 1, 1)).forEach {
