@@ -1,21 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Speedometer arc and needle, kept inside the 72dp adaptive-icon safe zone. -->
-    <path
-        android:pathData="M30,66a24,24 0 1,1 48,0"
-        android:strokeColor="#FFFFFFFF"
-        android:strokeWidth="6"
-        android:strokeLineCap="round"
-        android:fillColor="@android:color/transparent" />
-    <path
-        android:pathData="M54,66L68,50"
-        android:strokeColor="#FF41C7F0"
-        android:strokeWidth="5"
-        android:strokeLineCap="round" />
-    <path
-        android:pathData="M54,62.5a3.5,3.5 0 1,0 0.1,0z"
-        android:fillColor="#FF41C7F0" />
+    <!-- Split home / steering wheel mark; centered inside adaptive icon safe area. -->
+    <path android:fillColor="@color/drivehome_brand_blue"
+        android:pathData="M52,27 Q51,25 49,27 L25,49 Q22,52 26,55 L31,55 L31,75 Q31,80 36,80 L52,80 L52,73 L38,73 L38,51 L52,38 Z M41,54 L45,54 L45,58 L41,58 Z M47,54 L51,54 L51,58 L47,58 Z M41,60 L45,60 L45,64 L41,64 Z M47,60 L51,60 L51,64 L47,64 Z" />
+    <path android:fillColor="@color/drivehome_brand_white"
+        android:pathData="M56,27 A26.5,26.5 0 0,1 56,80 L56,72 Q76,70 78,58 L66,61 Q62,62 61,67 L56,72 L56,59 A6,6 0 0,0 56,47 L56,40 Q62,40 66,46 L78,46 Q73,35 56,35 Z" />
 </vector>

@@ -9,6 +9,12 @@
     android:paddingEnd="24dp"
     android:paddingBottom="8dp">
 
+    <include layout="@layout/drivehome_wordmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="12dp" />
+
     <TextView
         android:id="@+id/aboutVersion"
         android:layout_width="match_parent"
