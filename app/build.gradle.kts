@@ -18,17 +18,17 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.minimal.carlauncher"
+        applicationId = "es.gitcalde.drivehome"
         minSdk = 29
         // NOTE: deliberately NOT targetSdk 36. Android 16 ignores android:screenOrientation for
         // apps targeting 36 on displays with smallestWidth >= 600dp - which is exactly a head unit.
         targetSdk = 35
-        versionCode = 17
-        versionName = "0.17"
+        versionCode = 1
+        versionName = "0.1.0"
 
-        // TODO: point these at the repository that hosts the release APKs.
-        buildConfigField("String", "GITHUB_OWNER", "\"Breakeridis\"")
-        buildConfigField("String", "GITHUB_REPO", "\"open-car-launcher\"")
+        // DriveHome release repository.
+        buildConfigField("String", "GITHUB_OWNER", "\"gitcalde\"")
+        buildConfigField("String", "GITHUB_REPO", "\"drivehome\"")
 
     }
 
