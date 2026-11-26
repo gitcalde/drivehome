@@ -9,7 +9,9 @@ import com.minimal.carlauncher.R
 import com.minimal.carlauncher.core.Constants
 import com.minimal.carlauncher.core.Prefs
 import com.minimal.carlauncher.data.AppRepository
-import com.minimal.carlauncher.databinding.ActivityHomeBinding
+import com.minimal.carlauncher.databinding.WidgetProjectionBinding
+import com.minimal.carlauncher.databinding.WidgetNavigationBinding
+import com.minimal.carlauncher.databinding.WidgetMusicBinding
 import com.minimal.carlauncher.util.IntentUtil
 import kotlinx.coroutines.CoroutineScope
 
@@ -22,26 +24,28 @@ import kotlinx.coroutines.CoroutineScope
  */
 class QuickCardsController(
     private val activity: Activity,
-    private val binding: ActivityHomeBinding,
+    private val projectionCard: WidgetProjectionBinding,
+    private val navigationCard: WidgetNavigationBinding,
+    private val musicCard: WidgetMusicBinding,
     private val repository: AppRepository,
     private val scope: CoroutineScope
 ) {
 
     fun bind() {
-        binding.cardProjection.setOnClickListener { launchProjection() }
-        binding.cardProjection.setOnLongClickListener {
+        projectionCard.root.setOnClickListener { launchProjection() }
+        projectionCard.root.setOnLongClickListener {
             pickProjection()
             true
         }
 
-        binding.cardNav.setOnClickListener { launchStoredOrPick(it, Slot.NAV) }
-        binding.cardNav.setOnLongClickListener {
+        navigationCard.root.setOnClickListener { launchStoredOrPick(it, Slot.NAV) }
+        navigationCard.root.setOnLongClickListener {
             pick(Slot.NAV)
             true
         }
 
-        binding.cardMusic.setOnClickListener { launchStoredOrPick(it, Slot.MUSIC) }
-        binding.cardMusic.setOnLongClickListener {
+        musicCard.root.setOnClickListener { launchStoredOrPick(it, Slot.MUSIC) }
+        musicCard.root.setOnLongClickListener {
             pick(Slot.MUSIC)
             true
         }
@@ -50,14 +54,14 @@ class QuickCardsController(
     }
 
     fun refreshLabels() {
-        bindSubtitle(binding.subtitleNav, Prefs.navPackage, R.string.card_not_set)
-        bindSubtitle(binding.subtitleMusic, Prefs.musicPackage, R.string.card_not_set)
+        bindSubtitle(navigationCard.subtitleNav, Prefs.navPackage, R.string.card_not_set)
+        bindSubtitle(musicCard.subtitleMusic, Prefs.musicPackage, R.string.card_not_set)
 
         val projection = Prefs.projectionPackage ?: firstInstalledProjection()
         if (projection == null) {
-            binding.subtitleProjection.setText(R.string.projection_hint)
+            projectionCard.subtitleProjection.setText(R.string.projection_hint)
         } else {
-            bindSubtitle(binding.subtitleProjection, projection, R.string.projection_hint)
+            bindSubtitle(projectionCard.subtitleProjection, projection, R.string.projection_hint)
         }
     }
 
