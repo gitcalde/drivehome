@@ -30,6 +30,13 @@ class NightMapPaletteTest {
     }
 
     @Test
+    fun `matrix has four complete RGBA rows`() {
+        val matrix = NightMapPalette.matrix()
+        assertEquals(20, matrix.size)
+        assertEquals(listOf(0f, 0f, 0f), listOf(matrix[3], matrix[8], matrix[13]))
+    }
+
+    @Test
     fun `alpha remains unchanged`() {
         assertEquals(listOf(0f, 0f, 0f, 1f, 0f), NightMapPalette.matrix().takeLast(5))
     }
