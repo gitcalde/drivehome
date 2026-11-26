@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.core.content.FileProvider
 import com.minimal.carlauncher.BuildConfig
+import com.minimal.carlauncher.R
 import com.minimal.carlauncher.core.Constants
 import java.io.File
 
@@ -41,7 +42,7 @@ object ApkInstaller {
      * @return null on success, or a human-readable reason it could not be started.
      */
     fun install(context: Context, apk: File): String? {
-        if (!apk.exists()) return "The downloaded file is gone"
+        if (!apk.exists()) return context.getString(R.string.update_file_missing)
 
         val uri = try {
             FileProvider.getUriForFile(
@@ -50,7 +51,7 @@ object ApkInstaller {
                 apk
             )
         } catch (e: Exception) {
-            return "Could not share the update file"
+            return context.getString(R.string.update_file_share_failed)
         }
 
         val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -65,8 +66,7 @@ object ApkInstaller {
             context.startActivity(intent)
             null
         } catch (e: Exception) {
-            "No package installer on this device - install the APK manually from " +
-                apk.absolutePath
+            context.getString(R.string.update_installer_missing, apk.absolutePath)
         }
     }
 
