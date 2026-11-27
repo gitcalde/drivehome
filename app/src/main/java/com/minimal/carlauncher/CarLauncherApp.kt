@@ -1,6 +1,7 @@
 package com.minimal.carlauncher
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.minimal.carlauncher.core.Prefs
 import com.minimal.carlauncher.data.AppRepository
@@ -64,14 +65,32 @@ class CarLauncherApp : Application() {
      * permission) and to the generic "osmdroid" user agent, which the OpenStreetMap tile
      * servers block. Both are overridden before any MapView exists.
      *
+     * The base path doubles as the folder of local raster archives: osmdroid's built-in
+     * MapTileFileArchiveProvider scans it when the MapView is created and serves any .mbtiles
+     * found there ahead of the network. It is filesDir, not the cache, so a region is not wiped
+     * by the system; an empty or missing folder simply leaves the online chain untouched, and
+     * ArchiveFileFactory skips unreadable or unknown files instead of failing the map.
+     *
      * Two download threads, not the default eight: the T507 / A133 class of SoC and its
      * typical phone-hotspot connection are both easily saturated, and a stalled UI thread on
      * the home screen is worse than tiles arriving a moment later.
      */
     private fun configureMapTiles() {
+        val mapsDir = File(filesDir, MAPS_DIR)
+        // If the folder cannot be created, keep the previous base path rather than break the map.
+        val basePath = if (mapsDir.isDirectory || mapsDir.mkdirs()) {
+            mapsDir
+        } else {
+            File(filesDir, "osmdroid")
+        }
+        val local = mapsDir.listFiles { file ->
+            file.isFile && file.name.endsWith(".mbtiles", ignoreCase = true)
+        }
+        Log.i("DriveHome", "Offline maps in ${basePath.path}: ${local?.joinToString { it.name } ?: "none"}")
+
         OsmConfiguration.getInstance().apply {
             userAgentValue = "${BuildConfig.APPLICATION_ID}/${BuildConfig.VERSION_NAME}"
-            osmdroidBasePath = File(filesDir, "osmdroid")
+            osmdroidBasePath = basePath
             osmdroidTileCache = File(cacheDir, "osm-tiles")
             tileFileSystemCacheMaxBytes = 300L * 1024L * 1024L
             tileFileSystemCacheTrimBytes = 240L * 1024L * 1024L
@@ -101,5 +120,8 @@ class CarLauncherApp : Application() {
 
     companion object {
         const val CRASH_LOG = "crash.log"
+
+        /** Persistent folder for local raster maps (MBTiles). Never the system cache. */
+        private const val MAPS_DIR = "maps"
     }
 }
