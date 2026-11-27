@@ -77,6 +77,12 @@ class MapPortalController(
 
     private val autoRecenter = Runnable { setFollowing(true) }
 
+    /**
+     * Confirmed single tap on the free map surface (never a pan, pinch, double-tap or a tap on
+     * a marker/control, which consume the event first). Used to open the expanded map.
+     */
+    var onMapTap: (() -> Unit)? = null
+
     @SuppressLint("ClickableViewAccessibility")
     fun bind() {
         mapView.setTileSource(TileSourceFactory.MAPNIK)
@@ -89,7 +95,11 @@ class MapPortalController(
         mapView.setVerticalMapRepetitionEnabled(false)
         // Long-press anywhere drops a pin. Index 0, so markers still get their own taps first.
         mapView.overlays.add(0, MapEventsOverlay(object : MapEventsReceiver {
-            override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean = false
+            override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean {
+                val tap = onMapTap ?: return false
+                tap()
+                return true
+            }
             override fun longPressHelper(p: GeoPoint?): Boolean {
                 p?.let { onLongPress(it) }
                 return p != null

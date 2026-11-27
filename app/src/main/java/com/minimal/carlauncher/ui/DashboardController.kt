@@ -27,8 +27,12 @@ class DashboardController(binding: ActivityHomeBinding) {
         else View.generateViewId()
     }
 
+    /** Last valid arrangement, so leaving expanded mode can restore it exactly. */
+    private var lastConfig: DashboardConfig = DashboardConfig.defaults()
+
     fun apply(config: DashboardConfig) {
         val safe = config.takeIf { it.isValid() } ?: DashboardConfig.defaults()
+        lastConfig = safe
         val halfGap = grid.resources.getDimensionPixelSize(R.dimen.gap) / 2
         val set = ConstraintSet()
         set.clone(grid)
@@ -65,5 +69,33 @@ class DashboardController(binding: ActivityHomeBinding) {
             }
         }
         set.applyTo(grid)
+    }
+
+    /**
+     * Presentation-only expanded map. The map widget fills the whole grid and every other
+     * widget is hidden; the fixed bottom bar lives outside the grid and is untouched.
+     * Nothing is persisted: [apply] brings back the exact saved arrangement.
+     */
+    fun setMapExpanded(expanded: Boolean) {
+        if (!expanded) {
+            apply(lastConfig)
+            return
+        }
+
+        val mapId = widgets.getValue(DashboardWidget.MAP).id
+        val set = ConstraintSet()
+        set.clone(grid)
+        set.clear(mapId)
+        set.constrainWidth(mapId, 0)
+        set.constrainHeight(mapId, 0)
+        set.connect(mapId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)
+        set.connect(mapId, ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM)
+        set.connect(mapId, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
+        set.connect(mapId, ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT)
+        set.applyTo(grid)
+
+        widgets.forEach { (widget, view) ->
+            view.visibility = if (widget == DashboardWidget.MAP) View.VISIBLE else View.GONE
+        }
     }
 }
