@@ -168,6 +168,25 @@
                 android:textAllCaps="false"
                 android:textSize="12sp" />
         </LinearLayout>
+
+        <!-- OSM attribution: stays visible in both the normal and the expanded map. -->
+        <TextView
+            android:id="@+id/textAttribution"
+            style="@style/Text.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_hud"
+            android:letterSpacing="0"
+            android:paddingStart="6dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="6dp"
+            android:paddingBottom="2dp"
+            android:text="@string/map_attribution"
+            android:textAllCaps="false"
+            android:textSize="10sp" />
     </FrameLayout>
 
     <!-- Place / navigation card. Above the map and its controls. Place mode: name + Navigate. Navigation mode: next manoeuvre,

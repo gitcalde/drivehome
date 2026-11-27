@@ -21,6 +21,7 @@
 
     <!-- Map portal -->
     <string name="map_recenter">Centrar mapa en el vehículo</string>
+    <string name="map_attribution">© OpenStreetMap</string>
     <string name="map_orientation_toggle">Rumbo. Pulsa para alternar entre rumbo y norte arriba</string>
     <string name="map_mode_heading">▲ Rumbo arriba</string>
     <string name="map_mode_north">N Norte arriba</string>

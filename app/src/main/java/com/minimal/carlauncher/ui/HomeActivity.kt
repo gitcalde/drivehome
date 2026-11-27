@@ -57,6 +57,9 @@ class HomeActivity : AppCompatActivity() {
     private var lastCardinal: String? = null
     private var leftAtElapsedMs = 0L
 
+    /** Presentation-only state: never written to DashboardConfig. */
+    private var mapExpanded = false
+
     private val locationPermission = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { _ ->
@@ -91,6 +94,7 @@ class HomeActivity : AppCompatActivity() {
             repository, lifecycleScope
         )
         map = MapPortalController(this, binding.mapPortal, binding.searchPanel) { isMoving() }
+        map.onMapTap = { if (!mapExpanded) setMapExpanded(true) }
         radioWidget = RadioWidgetController(
             this, binding.radioCard, app.radioRepository, repository, lifecycleScope
         )
@@ -146,10 +150,14 @@ class HomeActivity : AppCompatActivity() {
     private fun bindDockActions() {
         binding.btnDriveHome.setOnClickListener { resetToDashboard() }
         binding.btnDriveHome.setOnLongClickListener {
-            if (!isMoving()) DashboardEditorDialog.show(this, Prefs.dashboardConfig) { config ->
-                if (!isMoving()) {
-                    Prefs.dashboardConfig = config
-                    dashboard.apply(config)
+            if (!isMoving()) {
+                // Edit in the normal arrangement so a save never fights the expanded overlay.
+                setMapExpanded(false)
+                DashboardEditorDialog.show(this, Prefs.dashboardConfig) { config ->
+                    if (!isMoving()) {
+                        Prefs.dashboardConfig = config
+                        dashboard.apply(config)
+                    }
                 }
             }
             true
@@ -203,9 +211,28 @@ class HomeActivity : AppCompatActivity() {
     private fun bindBackBehaviour() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (drawer.isOpen) drawer.close() else map.handleBack()
+                when {
+                    drawer.isOpen -> drawer.close()
+                    // Panels and pin cards keep their own Back handling before the map collapses.
+                    map.handleBack() -> Unit
+                    mapExpanded -> setMapExpanded(false)
+                }
             }
         })
+    }
+
+    // ------------------------------------------------------------- expanded map
+
+    /**
+     * Expanded map: the existing map widget fills the grid above the fixed bottom bar and the
+     * other widgets are hidden. Nothing is persisted and nothing is recreated - the same
+     * MapView, navigator and GPS session just get a bigger box. Leaving the mode re-applies
+     * the last DashboardConfig, so the user's own arrangement comes back exactly.
+     */
+    private fun setMapExpanded(expanded: Boolean) {
+        if (mapExpanded == expanded) return
+        mapExpanded = expanded
+        dashboard.setMapExpanded(expanded)
     }
 
     private fun observe() {
@@ -433,6 +460,8 @@ class HomeActivity : AppCompatActivity() {
     private fun resetToDashboard() {
         drawer.reset()
         map.reset()
+        // The DriveHome logo (and HOME) returns from the expanded map to the dashboard.
+        setMapExpanded(false)
     }
 
     private fun toast(message: String) {

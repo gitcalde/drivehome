@@ -46,6 +46,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     private var lastLocation: Location? = null
     private var lastFixElapsedMs = 0L
     private var sensorHeading: Float? = null
+    private var lastCompassPublishMs = 0L
 
     /**
      * Last GPS course, held while the car is stopped (and across reboots), so the map shows
@@ -71,7 +72,14 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
             compassJob = viewModelScope.launch {
                 compassProvider.headings().collect { heading ->
                     sensorHeading = heading
-                    publish()
+                    // The sensor runs at ~16 Hz. Republishing that often queues dashboard and
+                    // map redraws ahead of the GPS callback on the main thread, so cap the
+                    // derived updates at ~5 Hz. The GPS path below is never throttled.
+                    val now = SystemClock.elapsedRealtime()
+                    if (now - lastCompassPublishMs >= COMPASS_PUBLISH_MIN_MS) {
+                        lastCompassPublishMs = now
+                        publish()
+                    }
                 }
             }
         }
@@ -198,5 +206,8 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     private companion object {
         /** Two fixes closer than this are mostly GNSS noise, not a direction of travel. */
         const val COURSE_MIN_DISTANCE_M = 15f
+
+        /** ~5 Hz: enough for a heading readout, well below the rotation sensor's ~16 Hz. */
+        const val COMPASS_PUBLISH_MIN_MS = 200L
     }
 }
